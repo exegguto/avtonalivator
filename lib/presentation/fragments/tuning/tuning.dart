@@ -25,9 +25,23 @@ class TuningFragment extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          cocktail.name.isNotEmpty ? cocktail.name : Strings.tuning,
-          style: AppTheme.pageTitle,
+        title: RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: Strings.tuning,
+                style: AppTheme.pageTitle.copyWith(color: Colors.black),
+              ),
+              TextSpan(
+                text: Strings.totalVolume + context.read<TuningProvider>().getTotalVolume(),
+                style: AppTheme.additional.copyWith(
+                  color: Colors.black,
+                  height: 2,
+                ),
+              ),
+            ],
+          ),
         ),
         actions: [
           IconButton(

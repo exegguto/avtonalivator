@@ -28,8 +28,8 @@ class CalibrationDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text(Strings.calibrateText),
           const Text(Strings.calibrateSample, style: AppTheme.additional),
+          const Text(Strings.calibrateText),
           TextField(
             controller: controller,
             decoration: const InputDecoration(

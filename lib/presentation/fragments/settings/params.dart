@@ -46,10 +46,16 @@ class _Params {
           ),
         ),
       ),
-      Param.deviceAction(
+      Param.stored(
+        provider: settings,
         key: ParamKey.lightningBrightness,
         title: Strings.lightningBrightness,
-        sendValue: (v) => connection.setLightningBrightness(v),
+        defaultValue: 0,
+        maxValue: 100.0,
+        onChanged: (v) {
+          int scaledValue = (v / 100 * 255).round(); // Преобразование значения
+          connection.setLightningBrightness(scaledValue);
+        },
       ),
     ];
 

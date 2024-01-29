@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../../domain/model/cocktail.dart';
 import '../../../domain/model/drink.dart';
 import '../../../domain/storage/settings.dart';
+import '../../strings.dart';
 
 @injectable
 class TuningProvider extends ChangeNotifier {
@@ -36,5 +37,9 @@ class TuningProvider extends ChangeNotifier {
   void updateDrink(UiDrink drink) {
     cocktail = cocktail.updateDrink(drink);
     setCocktail(cocktail);
+  }
+
+  String getTotalVolume() {
+    return cocktail.drinks.fold(0.0, (total, drink) => total + drink.volume).toInt().toString() + Strings.ml;
   }
 }
