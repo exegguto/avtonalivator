@@ -9,7 +9,6 @@ import '../../../strings.dart';
 import '../../../widgets/basic_card.dart';
 import '../../../widgets/basic_image.dart';
 import '../../tuning/provider.dart';
-import '../provider.dart';
 
 const _horizontal = AppTheme.horizontalPadding;
 
