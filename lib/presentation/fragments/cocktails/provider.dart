@@ -62,8 +62,16 @@ class CocktailsProvider extends ChangeNotifier {
     return _repository.saveCocktail(cocktail);
   }
 
-  Future<void> delete(UiCocktail cocktail) {
-    return _repository.deleteCocktail(cocktail);
+  Future<void> delete(UiCocktail cocktail) async {
+    await _repository.deleteCocktail(cocktail);
+
+    // Перезагрузка данных из репозитория
+    await _reloadCocktails();
+  }
+
+  Future<void> _reloadCocktails() async {
+    var cocktails = await _repository.getLocal();
+    _setUserCocktails(cocktails);
   }
 
   // Save favorite coctail
@@ -71,8 +79,17 @@ class CocktailsProvider extends ChangeNotifier {
     return _repository.saveFavoriteCocktail(cocktail);
   }
 
-  Future<void> deleteFavorite(UiCocktail cocktail) {
-    return _repository.deleteFavoriteCocktail(cocktail);
+  Future<void> deleteFavorite(UiCocktail cocktail) async {
+    await _repository.deleteFavoriteCocktail(cocktail);
+
+    // Перезагрузка данных из репозитория
+    await _reloadFavorites();
+    // return _repository.deleteFavoriteCocktail(cocktail);
+  }
+
+  Future<void> _reloadFavorites() async {
+    var favorites = await _repository.getFavorite();
+    _setFavoriteCocktails(favorites);
   }
 
   // * Private

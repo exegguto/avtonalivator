@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import '../strings.dart';
 
 class DialogHelper {
   static void showCustomDialog(
       BuildContext context, {
         required String title,
-        String hintText = "",
+        String hintText = '',
         required Function(String) onConfirm,
         Function()? onCancel,
       }) {
@@ -24,14 +25,14 @@ class DialogHelper {
           actions: <Widget>[
             if (onCancel != null)
               TextButton(
-                child: Text('Отмена'),
+                child: const Text(Strings.cancel),
                 onPressed: () {
                   onCancel();
                   Navigator.of(context).pop();
                 },
               ),
             TextButton(
-              child: Text('Сохранить'),
+              child: const Text(Strings.save),
               onPressed: () {
                 onConfirm(inputText);
                 Navigator.of(context).pop();

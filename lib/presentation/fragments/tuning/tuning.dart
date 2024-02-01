@@ -6,6 +6,7 @@ import '../../../domain/model/drink.dart';
 import '../../pages/home/connection_provider.dart';
 import '../../strings.dart';
 import '../../widgets/dialog_helper.dart';
+import '../../strings.dart';
 import '../cocktails/cocktails.dart';
 import 'provider.dart';
 import 'widgets/tuning_card.dart';
@@ -50,15 +51,12 @@ class TuningFragment extends StatelessWidget {
             onPressed: () {
               DialogHelper.showCustomDialog(
                 context,
-                title: "Введите название",
-                hintText: "Название",
+                title: Strings.dialogTitle,
+                hintText: Strings.dialogName,
                 onConfirm: (inputText) {
                   cocktails.save(cocktail.copyWith(name: inputText));
-                  print("Введенный текст: $inputText");
                 },
-                onCancel: () {
-                  print("Отменено");
-                },
+                onCancel: () {},
               );
             }, // cocktails.save(cocktail),
             icon: const Icon(Icons.save_rounded),

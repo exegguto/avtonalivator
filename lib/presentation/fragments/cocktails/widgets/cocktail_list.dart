@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme.dart';
 import '../../../../domain/model/cocktail.dart';
+import '../provider.dart';
 import 'cocktail_card.dart';
 import 'detail.dart';
 
 class CocktailsList extends StatelessWidget {
   final List<UiCocktail> cocktails;
   final ScrollController? controller;
+  final int providerType;
 
   const CocktailsList({
     super.key,
     required this.cocktails,
     this.controller,
+    required this.providerType
   });
 
   @override
@@ -28,10 +32,25 @@ class CocktailsList extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
+    final cocktailsContext = context.read<CocktailsProvider>();
     final item = cocktails[index];
+    var icon = const Icon(Icons.star_border);
+    EditFunction editFunction = (cocktail) => cocktailsContext.saveFavorite(cocktail);
+
+    switch(providerType) {
+      case 1:
+        icon = Icon(Icons.star, color: AppTheme.accent);
+        editFunction = (cocktail) => cocktailsContext.deleteFavorite(cocktail);
+        break;
+      case 2:
+        icon = const Icon(Icons.delete_forever, color: AppTheme.red);
+        editFunction = (cocktail) => cocktailsContext.delete(cocktail);
+        break;
+    }
+
     return CocktailCard(
       cocktail: item,
-      onItemTap: (cocktail) => showDetail(context, cocktail),
+      onItemTap: (cocktail) => showDetail(context, cocktail, icon, editFunction)
     );
   }
 
@@ -39,3 +58,5 @@ class CocktailsList extends StatelessWidget {
     return const SizedBox(height: 10);
   }
 }
+
+typedef EditFunction = Future<void> Function(UiCocktail cocktail);

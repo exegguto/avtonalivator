@@ -44,6 +44,7 @@ class Strings {
   static const enterVolume = 'Введите объём (мл)';
   static const cancel = 'Отмена';
   static const ok = 'ОК';
+  static const save = 'Сохранить';
 
   static const pour = 'Налить';
   static const goPour = 'Приготовить';
@@ -83,4 +84,9 @@ class Strings {
 
   static const lightningMode = 'Режим подсветки';
   static const lightningBrightness = 'Режим подсветки';
+
+  // * Tuning
+  static const dialogTitle ='Введите название';
+  static const dialogName ='Название';
+
 }

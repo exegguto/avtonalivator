@@ -19,11 +19,13 @@ void setCocktail(BuildContext context, UiCocktail cocktail) {
   AppRoutes.setHomeIndex(0);
 }
 
-void showDetail(BuildContext context, UiCocktail cocktail) {
-  final cocktailsContext = context.read<CocktailsProvider>();
-  var icon = Icon(Icons.star_border);
-  // если мы в избранном, то удалить кнопку либо по этой же кнопке
-  // if(false) icon = Icon(Icons.star);
+void showDetail(
+    BuildContext context,
+    UiCocktail cocktail,
+    Icon icon,
+    void Function(UiCocktail cocktail) onSaveFavorite,
+    ) {
+
 
   showModalBottomSheet(
     context: context,
@@ -32,7 +34,7 @@ void showDetail(BuildContext context, UiCocktail cocktail) {
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: AppTheme.radius),
     ),
-    builder: (_) {
+    builder: (bottomSheetContext) {
       return DraggableScrollableSheet(
         expand: false,
         initialChildSize: 0.8,
@@ -41,7 +43,10 @@ void showDetail(BuildContext context, UiCocktail cocktail) {
             cocktail: cocktail,
             setCocktail: () => setCocktail(context, cocktail),
             controller: controller,
-            onSaveFavorite: (id) => cocktailsContext.saveFavorite(cocktail),
+            onSaveFavorite: (cocktail) {
+              onSaveFavorite(cocktail);
+              Navigator.pop(bottomSheetContext);
+            },
             iconFavorite: icon,
           );
         },
@@ -103,6 +108,7 @@ class CocktailDetail extends StatelessWidget {
                       IconButton(
                         onPressed: () => onSaveFavorite(cocktail),
                         icon: iconFavorite,
+                        iconSize: 32.0,
                       ),
                     ],
                   ),

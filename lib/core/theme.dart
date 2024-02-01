@@ -11,6 +11,7 @@ class AppTheme {
   static const greyLight = Color(0xFFC4C4C4);
   static const divider = Color(0xFFEDEDED);
   static const background = Colors.white;
+  static const red = Colors.red;
 
   static const paddingValue = 15.0;
   static const padding = EdgeInsets.all(paddingValue);
