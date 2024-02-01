@@ -81,7 +81,7 @@ class CocktailDetail extends StatelessWidget {
                     child: Text(
                       cocktail.name,
                       style: AppTheme.pageTitle.copyWith(fontSize: 24),
-                    ),
+                    ), // Добавить с боку от этого
                   ),
                   const SizedBox(height: 15),
                   if (cocktail.recipe.isNotEmpty)

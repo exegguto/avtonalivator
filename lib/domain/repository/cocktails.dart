@@ -3,24 +3,28 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../data/data_source.dart';
 import '../../data/local_cocktails.dart';
+import '../../data/local_favorite.dart';
 import '../model/cocktail.dart';
 
 @singleton
 class CocktailsRepository {
   final DataSource _source;
   final LocalCocktails _local;
+  final LocalFavoriteCocktails _favorite;
 
   final _hostCocktails = BehaviorSubject<List<UiCocktail>>.seeded([]);
   final _userCocktails = BehaviorSubject<List<UiCocktail>>.seeded([]);
+  final _favoriteCocktails = BehaviorSubject<List<UiCocktail>>.seeded([]);
 
-  CocktailsRepository(this._source, this._local) {
+  CocktailsRepository(this._source, this._local, this._favorite) {
     getCocktails().then(_hostCocktails.add);
     getLocal().then(_userCocktails.add);
+    getFavorite().then(_favoriteCocktails.add);
   }
 
   Stream<List<UiCocktail>> get hostCocktails => _hostCocktails;
-
   Stream<List<UiCocktail>> get userCocktails => _userCocktails;
+  Stream<List<UiCocktail>> get favoriteCocktails => _favoriteCocktails;
 
   Future<List<UiCocktail>> getCocktails() async {
     final list = await _source.getCocktails();
@@ -44,5 +48,23 @@ class CocktailsRepository {
   Future<void> deleteCocktail(UiCocktail cocktail) async {
     final api = cocktail.toApi();
     await _local.deleteCocktail(api);
+  }
+
+  Future<void> deleteFavoriteCocktail(UiCocktail cocktail) async {
+    final api = cocktail.toApi();
+    await _favorite.deleteCocktail(api);
+  }
+
+  Future<void> saveFavoriteCocktail(UiCocktail cocktail) async {
+    final api = cocktail.toApi();
+    await _favorite.saveCocktail(api);
+    getFavorite().then(_favoriteCocktails.add);
+    await _source.postCocktail(api);
+  }
+
+  Future<List<UiCocktail>> getFavorite() async {
+    final list = await _favorite.getFavorite();
+    final cocktails = list.map(UiCocktail.fromApi).toList();
+    return cocktails;
   }
 }

@@ -13,12 +13,15 @@ class CocktailsProvider extends ChangeNotifier {
 
   List<UiCocktail> _cocktails = [];
   List<UiCocktail> _userCocktails = [];
+  List<UiCocktail> _userFavorite = [];
   StreamSubscription? _cocktailsSub;
   StreamSubscription? _userCocktailsSub;
+  StreamSubscription? _userFavoriteSub;
 
   CocktailsProvider(this._repository) {
     _cocktailsSub ??= _repository.hostCocktails.listen(_setCocktails);
     _userCocktailsSub ??= _repository.userCocktails.listen(_setUserCocktails);
+    _userFavoriteSub ??= _repository.favoriteCocktails.listen(_setFavoriteCocktails);
   }
 
   String _searchPattern = '';
@@ -31,8 +34,10 @@ class CocktailsProvider extends ChangeNotifier {
       .where((c) => c.name.search(_searchPattern))
       .toList();
 
-  List<UiCocktail> get favCocktails =>
-      cocktails.where((e) => e.favorite).toList();
+  List<UiCocktail> get favCocktails => _userFavorite
+      .where((c) => !useFilter || c.contains(_tuningDrinks))
+      .where((c) => c.name.search(_searchPattern))
+      .toList();
 
   List<UiCocktail> get userCocktails => _userCocktails
       .where((c) => !useFilter || c.contains(_tuningDrinks))
@@ -61,6 +66,15 @@ class CocktailsProvider extends ChangeNotifier {
     return _repository.deleteCocktail(cocktail);
   }
 
+  // Save favorite coctail
+  Future<void> saveFavorite(UiCocktail cocktail) {
+    return _repository.saveFavoriteCocktail(cocktail);
+  }
+
+  Future<void> deleteFavorite(UiCocktail cocktail) {
+    return _repository.deleteFavoriteCocktail(cocktail);
+  }
+
   // * Private
 
   void _setCocktails(List<UiCocktail> cocktails) {
@@ -73,10 +87,16 @@ class CocktailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void _setFavoriteCocktails(List<UiCocktail> cocktails) {
+    _userFavorite = cocktails;
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     _cocktailsSub?.cancel();
     _userCocktailsSub?.cancel();
+    _userFavoriteSub?.cancel();
     return super.dispose();
   }
 }
