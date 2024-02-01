@@ -9,6 +9,7 @@ import '../../../strings.dart';
 import '../../../widgets/basic_card.dart';
 import '../../../widgets/basic_image.dart';
 import '../../tuning/provider.dart';
+import '../provider.dart';
 
 const _horizontal = AppTheme.horizontalPadding;
 
@@ -19,6 +20,11 @@ void setCocktail(BuildContext context, UiCocktail cocktail) {
 }
 
 void showDetail(BuildContext context, UiCocktail cocktail) {
+  final cocktailsContext = context.read<CocktailsProvider>();
+  var icon = Icon(Icons.star_border);
+  // если мы в избранном, то удалить кнопку либо по этой же кнопке
+  // if(false) icon = Icon(Icons.star);
+
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -35,6 +41,8 @@ void showDetail(BuildContext context, UiCocktail cocktail) {
             cocktail: cocktail,
             setCocktail: () => setCocktail(context, cocktail),
             controller: controller,
+            onSaveFavorite: (id) => cocktailsContext.saveFavorite(cocktail),
+            iconFavorite: icon,
           );
         },
       );
@@ -46,12 +54,16 @@ class CocktailDetail extends StatelessWidget {
   final UiCocktail cocktail;
   final VoidCallback? setCocktail;
   final ScrollController? controller;
+  final ValueChanged<UiCocktail> onSaveFavorite; // Колбэк для сохранения коктейля
+  final Icon iconFavorite;
 
   const CocktailDetail({
     super.key,
     required this.cocktail,
     this.setCocktail,
     this.controller,
+    required this.onSaveFavorite, // Добавляем это в конструктор
+    required this.iconFavorite,
   });
 
   Widget drinkMapper(UiDrink drink) {
@@ -76,12 +88,23 @@ class CocktailDetail extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
-                    padding: _horizontal,
-                    child: Text(
-                      cocktail.name,
-                      style: AppTheme.pageTitle.copyWith(fontSize: 24),
-                    ), // Добавить с боку от этого
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: _horizontal,
+                          child: Text(
+                            cocktail.name,
+                            style: AppTheme.pageTitle.copyWith(fontSize: 24),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => onSaveFavorite(cocktail),
+                        icon: iconFavorite,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 15),
                   if (cocktail.recipe.isNotEmpty)

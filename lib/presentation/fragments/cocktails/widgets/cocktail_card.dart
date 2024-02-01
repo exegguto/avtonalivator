@@ -8,15 +8,12 @@ import '../../../widgets/basic_image.dart';
 class CocktailCard extends StatelessWidget {
   final UiCocktail cocktail;
   final ValueChanged<UiCocktail> onItemTap;
-  final ValueChanged<UiCocktail> onSaveFavorite; // Колбэк для сохранения коктейля
-  final Icon iconFavorite;
+
 
   const CocktailCard({
     super.key,
     required this.cocktail,
     required this.onItemTap,
-    required this.onSaveFavorite, // Добавляем это в конструктор
-    required this.iconFavorite,
   });
 
   @override
@@ -43,17 +40,6 @@ class CocktailCard extends StatelessWidget {
                 child: Text(cocktail.name),
               ),
             ],
-          ),
-        ),
-        Positioned(
-          top: 0,
-          bottom: 0,
-          right: 10,
-          child: Center(
-            child: IconButton(
-                onPressed: () => onSaveFavorite(cocktail), // Использование колбэка для сохранения
-                icon: iconFavorite,
-            ),
           ),
         ),
       ],

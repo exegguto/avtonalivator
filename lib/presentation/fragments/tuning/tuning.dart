@@ -5,6 +5,7 @@ import '../../../core/theme.dart';
 import '../../../domain/model/drink.dart';
 import '../../pages/home/connection_provider.dart';
 import '../../strings.dart';
+import '../../widgets/dialog_helper.dart';
 import '../cocktails/cocktails.dart';
 import 'provider.dart';
 import 'widgets/tuning_card.dart';
@@ -21,6 +22,7 @@ class TuningFragment extends StatelessWidget {
     final connection = context.read<ConnectionProvider>();
 
     final cocktail = tuning.cocktail;
+
     connection.setCocktail(cocktail);
 
     return Scaffold(
@@ -45,7 +47,20 @@ class TuningFragment extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () => cocktails.save(cocktail),
+            onPressed: () {
+              DialogHelper.showCustomDialog(
+                context,
+                title: "Введите название",
+                hintText: "Название",
+                onConfirm: (inputText) {
+                  cocktails.save(cocktail.copyWith(name: inputText));
+                  print("Введенный текст: $inputText");
+                },
+                onCancel: () {
+                  print("Отменено");
+                },
+              );
+            }, // cocktails.save(cocktail),
             icon: const Icon(Icons.save_rounded),
           ),
           const SizedBox(width: 16),
