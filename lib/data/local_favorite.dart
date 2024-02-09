@@ -32,8 +32,13 @@ class LocalFavoriteCocktails {
 
   Future<void> saveCocktail(ApiCocktail cocktail) async {
     final cocktails = await getFavorite();
-    cocktails.add(cocktail);
-    return _write(cocktails);
+
+    // Проверяем, существует ли уже коктейль с таким же ID в списке
+    if (!cocktails.any((existingCocktail) => existingCocktail.id == cocktail.id)) {
+      cocktails.add(cocktail);
+      await _write(cocktails);
+    }
+    // return _write(cocktails);
   }
 
   Future<void> deleteCocktail(ApiCocktail cocktail) async {

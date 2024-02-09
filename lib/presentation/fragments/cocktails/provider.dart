@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/model/cocktail.dart';
+import '../../../domain/model/drink.dart';
 import '../../../domain/repository/cocktails.dart';
 import '../../../domain/string_utils.dart';
 
@@ -11,6 +12,8 @@ import '../../../domain/string_utils.dart';
 class CocktailsProvider extends ChangeNotifier {
   final CocktailsRepository _repository;
 
+  late UiCocktail cocktail;
+  late UiDrink drink;
   List<UiCocktail> _cocktails = [];
   List<UiCocktail> _userCocktails = [];
   List<UiCocktail> _userFavorite = [];
@@ -74,7 +77,12 @@ class CocktailsProvider extends ChangeNotifier {
     _setUserCocktails(cocktails);
   }
 
-  // Save favorite coctail
+  Future<void> updateCocktail(UiCocktail cocktail) async {
+    var cocktails = await _repository.editUserCocktail(cocktail);
+    _setUserCocktails(cocktails);
+  }
+
+  // Save favorite cocktail
   Future<void> saveFavorite(UiCocktail cocktail) {
     return _repository.saveFavoriteCocktail(cocktail);
   }
@@ -84,7 +92,6 @@ class CocktailsProvider extends ChangeNotifier {
 
     // Перезагрузка данных из репозитория
     await _reloadFavorites();
-    // return _repository.deleteFavoriteCocktail(cocktail);
   }
 
   Future<void> _reloadFavorites() async {
@@ -116,4 +123,16 @@ class CocktailsProvider extends ChangeNotifier {
     _userFavoriteSub?.cancel();
     return super.dispose();
   }
+
+  void setCocktail(UiCocktail cocktail){
+    this.cocktail = cocktail;
+  }
+
+  Future<void> updateDrink(UiDrink drink) async{
+    this.drink = drink;
+    cocktail = cocktail.updateDrink(drink);
+    updateCocktail(cocktail);
+  }
+
+  void setDrink(UiDrink drink){this.drink = drink;}
 }

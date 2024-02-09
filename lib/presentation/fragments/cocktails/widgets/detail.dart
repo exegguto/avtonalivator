@@ -9,9 +9,14 @@ import '../../../strings.dart';
 import '../../../widgets/basic_card.dart';
 import '../../../widgets/basic_image.dart';
 import '../../tuning/provider.dart';
+import '../../tuning/widgets/name_picker.dart';
+import '../provider.dart';
+import 'name_dialog.dart';
+import 'volume_dialog.dart';
 
 const _horizontal = AppTheme.horizontalPadding;
 
+/// Устанавливает выбранный коктейль в приготовление
 void setCocktail(BuildContext context, UiCocktail cocktail) {
   context.read<TuningProvider>().setCocktail(cocktail);
   Navigator.of(context).pop();
@@ -20,11 +25,15 @@ void setCocktail(BuildContext context, UiCocktail cocktail) {
 
 void showDetail(
     BuildContext context,
-    UiCocktail cocktail,
+    UiCocktail item,
     Icon icon,
     void Function(UiCocktail cocktail) onSaveFavorite,
-    ) {
-
+    List<String>? drinks,
+    final ValueChanged<UiCocktail> onEditName,
+    final ValueChanged<UiDrink> onEditDrink,
+    )
+{
+  context.read<CocktailsProvider>().setCocktail(item);
 
   showModalBottomSheet(
     context: context,
@@ -34,19 +43,25 @@ void showDetail(
       borderRadius: BorderRadius.vertical(top: AppTheme.radius),
     ),
     builder: (bottomSheetContext) {
+
+      var cocktail = context.watch<CocktailsProvider>().cocktail;
+
       return DraggableScrollableSheet(
         expand: false,
         initialChildSize: 0.8,
         builder: (_, controller) {
           return CocktailDetail(
+            drinks: drinks,
             cocktail: cocktail,
             setCocktail: () => setCocktail(context, cocktail),
             controller: controller,
-            onSaveFavorite: (cocktail) {
-              onSaveFavorite(cocktail);
+            onSaveFavorite: (cocktailA) {
+              onSaveFavorite(cocktailA);
               Navigator.pop(bottomSheetContext);
             },
             iconFavorite: icon,
+            onEditDrink: onEditDrink,
+            onEditCocktail: onEditName,
           );
         },
       );
@@ -55,27 +70,87 @@ void showDetail(
 }
 
 class CocktailDetail extends StatelessWidget {
+  final List<String>? drinks;
   final UiCocktail cocktail;
   final VoidCallback? setCocktail;
   final ScrollController? controller;
-  final ValueChanged<UiCocktail> onSaveFavorite; // Колбэк для сохранения коктейля
+  final ValueChanged<UiCocktail> onSaveFavorite;
   final Icon iconFavorite;
+  final ValueChanged<UiDrink> onEditDrink;
+  final ValueChanged<UiCocktail> onEditCocktail;
 
   const CocktailDetail({
     super.key,
+    required this.drinks,
     required this.cocktail,
     this.setCocktail,
     this.controller,
-    required this.onSaveFavorite, // Добавляем это в конструктор
+    required this.onSaveFavorite,
     required this.iconFavorite,
+    required this.onEditDrink,
+    required this.onEditCocktail,
   });
 
-  Widget drinkMapper(UiDrink drink) {
-    return _DrinkCard(drink: drink, gap: 10);
+  void setName(String name, UiDrink drink) {
+    final newDrink = drink.copyWith(name: name);
+    return onEditDrink(newDrink);
+  }
+
+  void openNamePicker(BuildContext context, UiDrink drink) {
+    if(drinks == null) return;
+    showModalBottomSheet(
+      context: context,
+      builder: (_) {
+        return NamePicker(
+          drinks: drinks!,
+          setDrink: (name) => setName(name, drink),
+        );
+      },
+    );
+  }
+
+  void setNameCocktail(String volume) {
+    final newCocktail = cocktail.copyWith(name: volume);
+    return onEditCocktail(newCocktail);
+  }
+
+  void openNameField(BuildContext context) {
+    if(drinks == null) return;
+    final lastValue = cocktail.name;
+    showDialog(
+      context: context,
+      builder: (_) {
+        return NameDialog(
+          lastValue: lastValue,
+          setName: setNameCocktail,
+        );
+      },
+    );
+  }
+
+  void setValueCocktail(UiDrink drink, double volume) {
+    final newDrink = drink.copyWith(volume: volume);
+    return onEditDrink(newDrink);
+  }
+
+  void openValueField(BuildContext context, UiDrink drink, double value) {
+    if(drinks == null) return;
+    final lastValue = value;
+    showDialog(
+      context: context,
+      builder: (_) {
+        return VolumeDialog(
+          lastValue: lastValue,
+          setVolume: (value) => setValueCocktail(drink, value),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    // var cocktailNew = context.watch<CocktailsProvider>().cocktail;
+
     return Stack(
       children: [
         ListView(
@@ -96,11 +171,14 @@ class CocktailDetail extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: Padding(
-                          padding: _horizontal,
-                          child: Text(
-                            cocktail.name,
-                            style: AppTheme.pageTitle.copyWith(fontSize: 24),
+                        child: InkWell(
+                          onTap: () => openNameField(context),
+                          child: Padding(
+                            padding: _horizontal,
+                            child: Text(
+                              cocktail.name,
+                              style: AppTheme.pageTitle.copyWith(fontSize: 24),
+                            ),
                           ),
                         ),
                       ),
@@ -118,7 +196,14 @@ class CocktailDetail extends StatelessWidget {
                       child: Text(cocktail.recipe),
                     ),
                   const SizedBox(height: 15),
-                  ...cocktail.drinks.map(drinkMapper),
+                  ...cocktail.drinks.map((drink) =>
+                      _DrinkCard(
+                        drink: drink,
+                        gap: 10,
+                        cocktail: cocktail,
+                        onEditDrink: (value) => openNamePicker(context, value),
+                        onEditVolume: (value) => openValueField(context, drink, value),
+                      )).toList(),
                   const SizedBox(height: 15),
                   if (cocktail.description.isNotEmpty)
                     Padding(
@@ -147,13 +232,17 @@ class CocktailDetail extends StatelessWidget {
 class _DrinkCard extends StatelessWidget {
   final UiDrink drink;
   final double gap;
+  final UiCocktail cocktail;
+  final ValueChanged<UiDrink> onEditDrink; // Колбэк для сохранения коктейля
+  final ValueChanged<double> onEditVolume;
 
   const _DrinkCard({
     required this.drink,
     required this.gap,
+    required this.cocktail,
+    required this.onEditDrink,
+    required this.onEditVolume,
   });
-
-  String get volume => drink.volume.toString() + Strings.ml;
 
   @override
   Widget build(BuildContext context) {
@@ -169,10 +258,19 @@ class _DrinkCard extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Text(drink.name),
+            child: InkWell(
+              onTap: () => onEditDrink(drink),
+              child: Text(drink.name),
+            ),
           ),
           const SizedBox(width: 8),
-          Text(volume),
+          Align(
+            alignment: Alignment.centerRight,
+            child: InkWell(
+              onTap: () => onEditVolume(drink.volume),
+              child: Text(drink.volume.toString() + Strings.ml),
+            ),
+          ),
         ],
       ),
     );

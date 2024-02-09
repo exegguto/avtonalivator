@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
@@ -114,12 +116,12 @@ class UiCocktail extends Equatable {
         [...drinks],
       ];
 
-  ApiCocktail toApi() {
+  ApiCocktail toApi(bool val) {
     final now = DateTime.now();
     var newName = name;
     var newId = id;
     if (name == '') newName = now.toIso8601String();
-    if (id == -1) newId = now.millisecondsSinceEpoch;
+    if (val) newId = now.millisecondsSinceEpoch; //id == -1
 
     return ApiCocktail(
       id: newId,

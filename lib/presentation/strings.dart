@@ -38,7 +38,7 @@ class Strings {
   // * Common
 
   static const pickDrink = 'Выберите напиток';
-  static const ml = 'гр';
+  static const ml = 'мл';
 
   static const enterName = 'Введите название';
   static const enterVolume = 'Введите объём (мл)';

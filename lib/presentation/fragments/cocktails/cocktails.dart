@@ -31,7 +31,7 @@ class _State extends State<CocktailsFragment> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 3, vsync: this);
+    controller = TabController(initialIndex: 2, length: 3, vsync: this);
     controller.addListener(() {
       final provider = context.read<CocktailsProvider>();
       setState(() {
@@ -54,10 +54,10 @@ class _State extends State<CocktailsFragment> with TickerProviderStateMixin {
         background: CocktailsBackground(cocktails: cocktails),
         controller: controller,
       ),
-      body: FilterCard(
-        isActive: provider.useFilter,
-        onChanged: (v) => provider.setFilter(v, drinks),
-      ),
+      // body: FilterCard(  // поле фильтрует список по наличию алкоголя
+      //   isActive: provider.useFilter,
+      //   onChanged: (v) => provider.setFilter(v, drinks),
+      // ),
       bodyBuilder: (_, controller) {
         return CocktailsList(
           cocktails: cocktails,

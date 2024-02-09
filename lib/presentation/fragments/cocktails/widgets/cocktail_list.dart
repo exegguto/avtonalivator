@@ -35,6 +35,8 @@ class CocktailsList extends StatelessWidget {
     final cocktailsContext = context.read<CocktailsProvider>();
     final item = cocktails[index];
     var icon = const Icon(Icons.star_border);
+    List<String>? drinksList;
+
     EditFunction editFunction = (cocktail) => cocktailsContext.saveFavorite(cocktail);
 
     switch(providerType) {
@@ -45,13 +47,23 @@ class CocktailsList extends StatelessWidget {
       case 2:
         icon = const Icon(Icons.delete_forever, color: AppTheme.red);
         editFunction = (cocktail) => cocktailsContext.delete(cocktail);
+        drinksList = cocktailsContext.drinks;
         break;
     }
 
     return CocktailCard(
-      cocktail: item,
-      onItemTap: (cocktail) => showDetail(context, cocktail, icon, editFunction)
-    );
+        cocktail: item,
+        onItemTap: () => {
+          showDetail(
+            context,
+            item,
+            icon,
+            editFunction,
+            drinksList,
+            cocktailsContext.updateCocktail,
+            cocktailsContext.updateDrink,
+          ),
+        });
   }
 
   Widget separatorBuilder(BuildContext context, int index) {

@@ -36,6 +36,21 @@ class LocalCocktails {
     return _write(cocktails);
   }
 
+  List<ApiCocktail> updateCocktailInList(List<ApiCocktail> cocktails, ApiCocktail updatedCocktail) {
+    return cocktails.map((c) {
+      if (c.id == updatedCocktail.id) {
+        return updatedCocktail; // Заменяем на обновленный коктейль
+      }
+      return c; // Оставляем остальные коктейли без изменений
+    }).toList();
+  }
+
+  Future<void> editCocktail(ApiCocktail cocktail) async {
+    var cocktails = await getCocktails();
+    cocktails = updateCocktailInList(cocktails, cocktail);
+    return _write(cocktails);
+  }
+
   Future<void> deleteCocktail(ApiCocktail cocktail) async {
     final cocktails = await getCocktails();
     cocktails.removeWhere((c) => c.id == cocktail.id);
