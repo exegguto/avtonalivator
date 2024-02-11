@@ -30,7 +30,6 @@ class CocktailsList extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    var cocktailsA = context.watch<CocktailsProvider>().seeCocktails;
     print('rewrite itemBuilder: ${cocktails[index]}');
     return CocktailCard(
         cocktail: cocktails[index],
