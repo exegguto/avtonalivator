@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme.dart';
 import '../../../../domain/model/cocktail.dart';
 import '../../../widgets/basic_card.dart';
 import '../../../widgets/basic_image.dart';
-import '../provider.dart';
+import 'detail.dart';
 
 class CocktailCard extends StatelessWidget {
   final UiCocktail cocktail;
+  final int index;
   final VoidCallback onItemTap;
 
   const CocktailCard({
     super.key,
     required this.cocktail,
     required this.onItemTap,
+    required this.index,
   });
 
   @override
@@ -22,7 +23,7 @@ class CocktailCard extends StatelessWidget {
     return Stack(
       children: [
         BasicCard(
-          onTap: onItemTap,
+          onTap: () => showDetail(context, index),
           color: AppTheme.background,
           padding: const EdgeInsets.all(8),
           borderRadius: BorderRadius.circular(50),

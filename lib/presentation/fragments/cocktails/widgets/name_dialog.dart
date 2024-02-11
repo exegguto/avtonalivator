@@ -27,7 +27,7 @@ class NameDialog extends StatelessWidget {
         content: TextField(
           autofocus: true,
           onChanged: setName,
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.text,
           decoration: const InputDecoration(
             label: Label(Strings.enterName),
           ),

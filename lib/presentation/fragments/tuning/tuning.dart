@@ -5,7 +5,6 @@ import '../../../core/theme.dart';
 import '../../../domain/model/drink.dart';
 import '../../pages/home/connection_provider.dart';
 import '../../strings.dart';
-import '../../widgets/dialog_helper.dart';
 import '../cocktails/cocktails.dart';
 import 'provider.dart';
 import 'widgets/tuning_card.dart';
@@ -56,7 +55,7 @@ class TuningFragment extends StatelessWidget {
                   if(id == -1) {
                     cocktails.save(cocktail.copyWith(name: inputText));
                   } else {
-                    cocktails.updateCocktail(cocktail.copyWith(id: id, name: inputText));
+                    cocktails.updateCocktail(cocktail.copyWith(id: id, name: inputText), -1);
                   }
                   },
                 onCancel: () {  },

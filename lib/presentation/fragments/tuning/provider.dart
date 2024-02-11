@@ -31,10 +31,10 @@ class TuningProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateCocktail(UiCocktail cocktail) async {
-    var cocktails = await _repository.editUserCocktail(cocktail);
-    _setUserCocktails(cocktails);
-  }
+  // Future<void> updateCocktail(UiCocktail cocktail) async {
+  //   var cocktails = await _repository.editUserCocktail(cocktail);
+  //   _setUserCocktails(cocktails);
+  // }
 
   void setCocktail(UiCocktail cocktail) {
     final quantity = _settings.drinksQuantity;

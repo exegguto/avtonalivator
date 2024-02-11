@@ -12,8 +12,7 @@ import '../../../domain/string_utils.dart';
 class CocktailsProvider extends ChangeNotifier {
   final CocktailsRepository _repository;
 
-  late UiCocktail cocktail;
-  late UiDrink drink;
+  int item = 0;
   List<UiCocktail> _cocktails = [];
   List<UiCocktail> _userCocktails = [];
   List<UiCocktail> _userFavorite = [];
@@ -47,6 +46,16 @@ class CocktailsProvider extends ChangeNotifier {
       .where((c) => c.name.search(_searchPattern))
       .toList();
 
+  List<UiCocktail> get seeCocktails {
+    switch (item) {
+      case 0: return cocktails;
+      case 1: return favCocktails;
+      case 2: return userCocktails;
+      default: return []; // Или другое дефолтное значение
+    }
+  }
+
+
   List<String> get drinks =>
       _cocktails.expand((c) => c.drinkNames).toSet().toList();
 
@@ -77,9 +86,22 @@ class CocktailsProvider extends ChangeNotifier {
     _setUserCocktails(cocktails);
   }
 
-  Future<void> updateCocktail(UiCocktail cocktail) async {
-    var cocktails = await _repository.editUserCocktail(cocktail);
-    _setUserCocktails(cocktails);
+  List<UiCocktail> cocktailSearch(List<UiCocktail> list, UiCocktail cocktail){
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id == cocktail.id) list[i] = cocktail;
+    }
+    return list;
+  }
+
+  Future<void> updateCocktail(UiCocktail cocktail, index) async {
+    if(index == -1) {
+      _userCocktails = cocktailSearch(_userCocktails, cocktail);
+    } else {
+      _userCocktails = List.from(_userCocktails)..[index] = cocktail;
+    }
+    print('rewrite updateCocktail: $cocktail');
+    notifyListeners();
+    await _repository.editUserCocktail(cocktail);
   }
 
   // Save favorite cocktail
@@ -89,8 +111,6 @@ class CocktailsProvider extends ChangeNotifier {
 
   Future<void> deleteFavorite(UiCocktail cocktail) async {
     await _repository.deleteFavoriteCocktail(cocktail);
-
-    // Перезагрузка данных из репозитория
     await _reloadFavorites();
   }
 
@@ -124,15 +144,32 @@ class CocktailsProvider extends ChangeNotifier {
     return super.dispose();
   }
 
-  void setCocktail(UiCocktail cocktail){
-    this.cocktail = cocktail;
+  void updateDrink(UiDrink drink, int index) {
+    // print('rewrite updateDrink_0: $drink');
+    var editCocktail = _userCocktails[index];
+    // print('rewrite updateDrink_1: $editCocktail');
+    editCocktail = editCocktail.updateDrink(drink);
+    // print('rewrite updateDrink_2: $editCocktail');
+    updateCocktail(editCocktail, index);
   }
 
-  Future<void> updateDrink(UiDrink drink) async{
-    this.drink = drink;
-    cocktail = cocktail.updateDrink(drink);
-    updateCocktail(cocktail);
-  }
+  // void updateDrink(UiDrink drink) {
+  //   cocktail = cocktail.updateDrink(drink);
+  //   setCocktail(cocktail);
+  // }
 
-  void setDrink(UiDrink drink){this.drink = drink;}
+  // void setCocktail(UiCocktail cocktail) {
+  //   final quantity = _settings.drinksQuantity;
+  //   final drinks = List.generate(
+  //     quantity,
+  //         (index) =>
+  //     cocktail.drinks.elementAtOrNull(index) ?? UiDrink.empty(index + 1),
+  //   );
+  //
+  //   cocktail = cocktail.copyWith(drinks: drinks);
+  //   this.cocktail = cocktail;
+  //   notifyListeners();
+  // }
+
+
 }

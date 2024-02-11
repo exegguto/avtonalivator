@@ -6,11 +6,9 @@ import '../../../domain/model/cocktail.dart';
 import '../../strings.dart';
 import '../../widgets/search_field.dart';
 import '../../widgets/sliver_scaffold.dart';
-import '../tuning/provider.dart';
 import 'provider.dart';
 import 'widgets/background.dart';
 import 'widgets/cocktail_list.dart';
-import 'widgets/filter_card.dart';
 
 export 'provider.dart';
 
@@ -26,7 +24,6 @@ class CocktailsFragment extends StatefulWidget {
 class _State extends State<CocktailsFragment> with TickerProviderStateMixin {
   late TabController controller;
   List<UiCocktail> cocktails = [];
-  var providerType = 0;
 
   @override
   void initState() {
@@ -35,7 +32,8 @@ class _State extends State<CocktailsFragment> with TickerProviderStateMixin {
     controller.addListener(() {
       final provider = context.read<CocktailsProvider>();
       setState(() {
-        cocktails = getCocktails(provider);
+        provider.item = controller.index;
+        cocktails = provider.seeCocktails;
       });
     });
   }
@@ -43,10 +41,8 @@ class _State extends State<CocktailsFragment> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<CocktailsProvider>();
-    final tuning = context.watch<TuningProvider>();
-
-    cocktails = getCocktails(provider);
-    final drinks = tuning.cocktail.drinkNames;
+    provider.item = controller.index;
+    cocktails = provider.seeCocktails;
 
     return SliverScaffold(
       sliverAppBar: _CocktailsAppBar(
@@ -62,24 +58,8 @@ class _State extends State<CocktailsFragment> with TickerProviderStateMixin {
         return CocktailsList(
           cocktails: cocktails,
           controller: controller,
-          providerType: providerType,
         );
       },
     );
-  }
-
-  List<UiCocktail> getCocktails(CocktailsProvider provider) {
-    switch (controller.index) {
-      case 0:
-        providerType = 0;
-        return provider.cocktails;
-      case 1:
-        providerType = 1;
-        return provider.favCocktails;
-      case 2:
-        providerType = 2;
-        return provider.userCocktails;
-    }
-    return [];
   }
 }

@@ -68,13 +68,9 @@ class CocktailsRepository {
     return cocktails;
   }
 
-  Future<List<UiCocktail>> editUserCocktail(UiCocktail cocktail) async {
+  Future<void> editUserCocktail(UiCocktail cocktail) async {
+    print('Step editUserCocktail');
     final api = cocktail.toApi(false);
     await _local.editCocktail(api);
-    getLocal().then(_userCocktails.add);
-    final list = await _local.getCocktails();
-    final cocktails = list.map(UiCocktail.fromApi).toList();
-    return cocktails;
-    // await _source.postCocktail(api); // заглушка, должен сохранять пользовательский коктейль на сервер
   }
 }
