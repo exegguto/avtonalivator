@@ -53,7 +53,7 @@ class _Params {
         defaultValue: 0,
         maxValue: 100.0,
         onChanged: (v) {
-          int scaledValue = (v / 100 * 255).round(); // Преобразование значения
+          int scaledValue = v;
           connection.setLightningBrightness(scaledValue);
         },
       ),

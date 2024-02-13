@@ -77,13 +77,12 @@ class Strings {
     6. Заново подключитесь к устройству и проверьте правильность калибровки.
   ''';
   static const calibrateSample =
-      'Можете загуглить сколько весит ваш телефон (не забудьте снять чехол).\n'
       'Режим калибровки необходим для правильного смешивания коктейлей.';
 
   static const calibrateWeight = 'Вес (г)';
 
   static const lightningMode = 'Режим подсветки';
-  static const lightningBrightness = 'Режим подсветки';
+  static const lightningBrightness = 'Яркость подсветки';
 
   // * Tuning
   static const dialogTitle ='Введите название';

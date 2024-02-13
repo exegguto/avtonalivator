@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
@@ -9,9 +10,11 @@ import 'input_transformer.dart';
 
 /// Прослойка для библиотеки flutter_bluetooth_serial
 @singleton
-class FbsAdapter {
+class FbsAdapter{
   final _bluetooth = FlutterBluetoothSerial.instance;
   final _input = StreamController<Uint8List>.broadcast();
+  final _logs  = StreamController<String>.broadcast();
+  final _logsAll = [''];
 
   FbsAdapter();
 
@@ -46,6 +49,8 @@ class FbsAdapter {
   }
 
   Future<void> send(Uint8List bytes) async {
+    _logs.add('OUT: ${utf8.decode(bytes)}');
+    _logsAll.add('OUT: ${utf8.decode(bytes)}');
     try {
       _connection?.output.add(bytes);
       await _connection?.output.allSent;
@@ -55,6 +60,8 @@ class FbsAdapter {
   }
 
   Stream<Uint8List> get input => _input.stream.transform(inputTransformer);
+  Stream<String> get logs => _logs.stream;
+  List<String> get logsAll => _logsAll;
 
   Future<void> disconnect() async {
     await _connection?.close();
@@ -76,5 +83,13 @@ class FbsAdapter {
     final stream = _connection?.input;
     if (stream == null) return;
     _input.addStream(stream);
+    // _logs.addStream(stream);
+
+    stream.listen((data) {
+      final decodedData = utf8.decode(data);
+      _logs.add('IN: $decodedData');
+      _logsAll.add('IN: $decodedData');
+    });
+
   }
 }
