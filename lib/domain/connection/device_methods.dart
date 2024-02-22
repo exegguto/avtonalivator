@@ -77,6 +77,8 @@ class FbsDeviceMethods implements DeviceMethods {
   Future<void> setLightningBrightness(int value) {
     final casted = 255 * value / 100;
     value = casted.round();
+    if(value > 255) value = 255;
+    if(value < 0) value = 0;
     final command = 'n$value';
     return _sendCommand(command);
   }

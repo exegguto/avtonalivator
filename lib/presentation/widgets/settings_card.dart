@@ -31,7 +31,9 @@ class SettingsCard extends StatelessWidget {
             min: 0,
             max: param.maxValue ?? 100.0,
             value: (param.value as num).toDouble(),
-            onChanged: (v) => param.action(v.round()),
+            onChanged: (v) {
+              param.action(v.round());
+            },
           ),
         );
       case bool:

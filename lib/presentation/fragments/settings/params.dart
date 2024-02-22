@@ -3,6 +3,7 @@ part of 'settings.dart';
 class _Params {
   final BuildContext context;
   late final List<Param> list;
+  int lastActionValue = 0;
 
   _Params(this.context) {
     final settings = context.watch<SettingsProvider>();
@@ -53,8 +54,11 @@ class _Params {
         defaultValue: 0,
         maxValue: 100.0,
         onChanged: (v) {
-          int scaledValue = v;
-          connection.setLightningBrightness(scaledValue);
+          // int scaledValue = (v / 5).round() * 5;
+          // if ((scaledValue - lastActionValue).abs() >= 5) {
+            connection.setLightningBrightness(v);
+            // lastActionValue = v;
+          // }
         },
       ),
     ];

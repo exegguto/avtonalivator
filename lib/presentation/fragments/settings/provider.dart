@@ -6,6 +6,7 @@ import '../../../domain/storage/settings.dart';
 @injectable
 class SettingsProvider extends ChangeNotifier {
   final SettingsBox _box;
+  var lastSentValue = 0;
 
   SettingsProvider(this._box);
 
@@ -14,7 +15,11 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   void setParam(String key, dynamic value) {
-    _box.setParam(key, value);
-    notifyListeners();
+     _box.setParam(key, value);
+      notifyListeners();
+  }
+
+  void setValue(dynamic value){
+    lastSentValue = value;
   }
 }

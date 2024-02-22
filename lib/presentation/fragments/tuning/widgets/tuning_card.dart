@@ -11,7 +11,7 @@ import '../../../widgets/basic_switch.dart';
 import 'name_picker.dart';
 import 'volume_dialog.dart';
 
-const _maxVolume = 999.0;
+const _maxVolume = 1000.0;
 const _duration = AppTheme.duration;
 
 class TuningCard extends StatelessWidget {
@@ -163,7 +163,7 @@ class TuningCard extends StatelessWidget {
                     child: Slider(
                       min: 0,
                       max: max(drink.volume, _maxVolume),
-                      divisions: 50,
+                      divisions: 200,
                       value: drink.volume,
                       onChanged: setVolume,
                     ),

@@ -29,7 +29,7 @@ class Param extends Equatable {
   final dynamic maxValue;
   final Function action;
 
-  const Param._({
+  Param._({
     required this.type,
     required this.key,
     required this.title,
@@ -57,8 +57,21 @@ class Param extends Equatable {
       value: provider.getParam(key, defaultValue),
       maxValue: maxValue,
       action: (v) {
-        provider.setParam(key, v);
-        onChanged?.call(v);
+        if(key == 'lightningBrightness'){
+          var value = provider.lastSentValue;
+          if(v%5 == 0 && v != value){
+            provider.setParam(key, v);
+            onChanged?.call(v);
+            provider.setValue(v);
+          }
+        } else {
+          provider.setParam(key, v);
+          onChanged?.call(v);
+        }
+
+        // provider.lastSentValue;
+        // provider.setParam(key, v);
+        // onChanged?.call(v);
       },
     );
   }

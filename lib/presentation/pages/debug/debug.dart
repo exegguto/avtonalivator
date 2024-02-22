@@ -42,7 +42,9 @@ class _DebugPageState extends State<DebugPage> {
     var listAll = adapter.logsAll;
     data.addAll(listAll);
 
-    if (data.length > _maxLines) data.removeAt(0);
+    while (data.length > _maxLines) {
+      data.removeAt(0);
+    }
     final text = data.join('\n');
 
     logController.text = text;

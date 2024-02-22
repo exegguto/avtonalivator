@@ -15,6 +15,8 @@ class FbsAdapter{
   final _input = StreamController<Uint8List>.broadcast();
   final _logs  = StreamController<String>.broadcast();
   final _logsAll = [''];
+  static const _maxLines = 40;
+  var str = 'IN: ';
 
   FbsAdapter();
 
@@ -48,9 +50,16 @@ class FbsAdapter{
     return _connection;
   }
 
+  void _logsTest(String logs){
+    _logsAll.add(logs);
+    while (_logsAll.length > _maxLines) {
+      _logsAll.removeAt(0);
+    };
+  }
+
   Future<void> send(Uint8List bytes) async {
     _logs.add('OUT: ${utf8.decode(bytes)}');
-    _logsAll.add('OUT: ${utf8.decode(bytes)}');
+    _logsTest('OUT: ${utf8.decode(bytes)}');
     try {
       _connection?.output.add(bytes);
       await _connection?.output.allSent;
@@ -82,14 +91,23 @@ class FbsAdapter{
   Future<void> _setupStream() async {
     final stream = _connection?.input;
     if (stream == null) return;
-    _input.addStream(stream);
-    // _logs.addStream(stream);
+    // _input.addStream(stream);
 
     stream.listen((data) {
+      _input.add(data);
       final decodedData = utf8.decode(data);
-      _logs.add('IN: $decodedData');
-      _logsAll.add('IN: $decodedData');
-    });
+      str += decodedData;
 
+      int atIndex = decodedData.indexOf('@');
+      if (atIndex != -1) {
+        String beforeAt = decodedData.substring(0, atIndex);
+        String afterAt = decodedData.substring(atIndex + 1);
+        str += beforeAt;
+
+        _logs.add(str);
+        _logsTest(str);
+        str = 'IN: $afterAt';
+      }
+    });
   }
 }
