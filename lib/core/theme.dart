@@ -7,6 +7,7 @@ class AppTheme {
   static const error = Colors.redAccent;
 
   static const black = Color(0xFF010002);
+  static const green = Color(0xFF007C00);
   static const grey = Color(0xFF828282);
   static const greyLight = Color(0xFFC4C4C4);
   static const divider = Color(0xFFEDEDED);

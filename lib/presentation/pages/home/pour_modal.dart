@@ -64,49 +64,29 @@ class _ModalData extends StatelessWidget {
       padding: AppTheme.listPadding,
       controller: PrimaryScrollController.of(context),
       children: [
-        if (step == 0)
-          Text(
-            Strings.ready,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              color: AppTheme.black,
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-            ),
-          )
-        else ...[
-          Text(
-            drink ?? Strings.loading,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              color: AppTheme.black,
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          Padding(
-            padding: AppTheme.padding,
-            child: PercentIndicator(
-              percent: min(value, 1),
-              weight: weight,
-              animation: false,
-              child: Text(
-                percent,
-                style: GoogleFonts.inter(
-                  fontSize: 48,
-                  fontWeight: FontWeight.w900,
-                ),
+        Padding(
+          padding: AppTheme.padding,
+          child: PercentIndicator(
+            percent: min(value, 1),
+            weight: weight,
+            animation: false,
+            child: Text(
+              percent,
+              style: GoogleFonts.inter(
+                fontSize: 48,
+                fontWeight: FontWeight.w900,
               ),
             ),
           ),
-        ],
+        ),
         ...nameList.asMap().map((i, str) => MapEntry(i, Text(
           str.isNotEmpty ? str : Strings.notNameCocktails,
           textAlign: TextAlign.center,
           style: TextStyle(
             decoration: i < (step-1) ? TextDecoration.lineThrough : null,
+            decorationColor: Colors.red,
             fontSize: 16,
-            color: AppTheme.grey,
+            color: i == (step-1) ? AppTheme.green : AppTheme.grey,
             fontWeight: i == (step-1) ? FontWeight.bold : FontWeight.w300,
           ),
         ))).values.toList(),
