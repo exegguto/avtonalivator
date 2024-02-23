@@ -28,6 +28,10 @@ class ConnectionProvider extends ChangeNotifier {
 
   List<String> _drinks = [];
 
+  List<String> get drinks {
+    return _drinks;
+  }
+
   String? get drink {
     final index = data.step - 1;
     if (index < 0) return null;

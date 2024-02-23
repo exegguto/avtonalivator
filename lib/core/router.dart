@@ -75,7 +75,7 @@ class AppRoutes {
   static List<String> get _homeSubRoutes => [
         tuning,
         cocktails,
-        stats,
         settings,
+        // stats,
       ];
 }

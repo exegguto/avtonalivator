@@ -9,16 +9,18 @@ const _maxValue = 9999;
 class VolumeDialog extends StatelessWidget {
   final double lastValue;
   final ValueChanged<double> setVolume;
+  final TextEditingController _controller = TextEditingController();
 
-  const VolumeDialog({
+  VolumeDialog({
     super.key,
     required this.lastValue,
     required this.setVolume,
   });
 
-  void apply(String data) {
-    final value = double.tryParse(data) ?? 0;
+  void apply(BuildContext context) {
+    final value = double.tryParse(_controller.text) ?? 0;
     if (value <= _maxValue) setVolume(value);
+    Navigator.of(context).pop();
   }
 
   void cancel(BuildContext context) {
@@ -33,7 +35,7 @@ class VolumeDialog extends StatelessWidget {
       child: AlertDialog(
         content: TextField(
           autofocus: true,
-          onChanged: apply,
+          controller: _controller,
           keyboardType: TextInputType.number,
           decoration: const InputDecoration(
             label: Label(Strings.enterVolume),
@@ -48,7 +50,7 @@ class VolumeDialog extends StatelessWidget {
             child: const Text(Strings.cancel),
           ),
           FilledButton(
-            onPressed: Navigator.of(context).pop,
+            onPressed: () => apply(context),
             child: const Text(Strings.ok),
           ),
         ],

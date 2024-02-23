@@ -53,6 +53,8 @@ class Strings {
   static const myRecipe = 'Мои рецепты';
 
   static const loading = '🤔';
+  static const notNameCocktails = 'Без названия';
+  static const ready = 'Готово';
 
   // * Stats
 

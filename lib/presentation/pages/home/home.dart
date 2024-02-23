@@ -34,7 +34,7 @@ class HomePageState extends State<HomePage> {
       context: context,
       builder: (_) => ChangeNotifierProvider.value(
         value: provider,
-        child: const PourModal(),
+        child: PourModal(),
       ),
     ).whenComplete(provider.stopPour);
   }
@@ -65,14 +65,14 @@ class HomePageState extends State<HomePage> {
             icon: Icon(Icons.liquor_rounded),
             label: Strings.cocktails,
           ),
-          // NavigationDestination(
-          //   icon: Icon(Icons.insert_chart_outlined_outlined),
-          //   label: Strings.stats,
-          // ),
           NavigationDestination(
             icon: Icon(Icons.settings_rounded),
             label: Strings.settings,
           ),
+          // NavigationDestination(
+          //   icon: Icon(Icons.insert_chart_outlined_outlined),
+          //   label: Strings.stats,
+          // ),
         ],
       ),
     );
@@ -81,8 +81,8 @@ class HomePageState extends State<HomePage> {
   static const bodies = [
     TuningFragment(),
     CocktailsFragment(),
-    // StatsFragment(),
     SettingsFragment(),
+    // StatsFragment(),
   ];
 
   late final buttons = [

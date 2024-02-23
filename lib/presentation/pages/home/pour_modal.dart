@@ -11,7 +11,9 @@ import '../../widgets/percent_indicator.dart';
 import 'connection_provider.dart';
 
 class PourModal extends StatelessWidget {
-  const PourModal({super.key});
+
+  PourModal({super.key});
+  bool hasNavigated = false;
 
   @override
   Widget build(BuildContext context) {
@@ -19,26 +21,41 @@ class PourModal extends StatelessWidget {
     final data = provider.data;
     final drink = provider.drink;
     final value = data.percent / 100;
+    final weight = data.weight;
+    final step = data.step;
+    final nameList = provider.drinks;
 
     final finish = data.mode == DeviceMode.wait && data.step == 0;
-    if (finish) Navigator.of(context).pop();
+    if (finish && !hasNavigated) {
+      hasNavigated = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pop();
+      });
+    }
 
-    return _ModalData(drink: drink, value: value);
+    return _ModalData(drink: drink, value: value, valWeight: weight, step: step, nameList: nameList);
   }
 }
 
 class _ModalData extends StatelessWidget {
   final String? drink;
   final double value;
+  final double valWeight;
+  final int step;
+  final List<String> nameList;
 
   const _ModalData({
     required this.drink,
     required this.value,
+    required this.valWeight,
+    required this.step,
+    required this.nameList,
   });
 
   int get _percent => (value * 100).round();
 
   String get percent => '$_percent%';
+  String get weight => '$valWeight${Strings.ml}';
 
   @override
   Widget build(BuildContext context) {
@@ -47,27 +64,59 @@ class _ModalData extends StatelessWidget {
       padding: AppTheme.listPadding,
       controller: PrimaryScrollController.of(context),
       children: [
-        Text(
-          drink ?? Strings.loading,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
-            color: AppTheme.black,
-            fontSize: 24,
-            fontWeight: FontWeight.w900,
+        if (step == 0)
+          Text(
+            Strings.ready,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(
+              color: AppTheme.black,
+              fontSize: 24,
+              fontWeight: FontWeight.w900,
+            ),
+          )
+        else ...[
+          Text(
+            drink ?? Strings.loading,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(
+              color: AppTheme.black,
+              fontSize: 24,
+              fontWeight: FontWeight.w900,
+            ),
           ),
-        ),
-        Padding(
-          padding: AppTheme.padding * 4,
-          child: PercentIndicator(
-            percent: min(value, 1),
-            animation: false,
-            child: Text(
-              percent,
-              style: GoogleFonts.inter(
-                fontSize: 48,
-                fontWeight: FontWeight.w900,
+          Padding(
+            padding: AppTheme.padding,
+            child: PercentIndicator(
+              percent: min(value, 1),
+              weight: weight,
+              animation: false,
+              child: Text(
+                percent,
+                style: GoogleFonts.inter(
+                  fontSize: 48,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
+          ),
+        ],
+        ...nameList.asMap().map((i, str) => MapEntry(i, Text(
+          str.isNotEmpty ? str : Strings.notNameCocktails,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            decoration: i < (step-1) ? TextDecoration.lineThrough : null,
+            fontSize: 16,
+            color: AppTheme.grey,
+            fontWeight: i == (step-1) ? FontWeight.bold : FontWeight.w300,
+          ),
+        ))).values.toList(),
+
+        ElevatedButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text(Strings.cancel),
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.black,
+            backgroundColor: AppTheme.accent,
           ),
         ),
       ],
