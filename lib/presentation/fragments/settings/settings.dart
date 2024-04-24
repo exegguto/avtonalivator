@@ -1,3 +1,4 @@
+import 'package:avtonalivator/presentation/fragments/settings/widgets/ReviewDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

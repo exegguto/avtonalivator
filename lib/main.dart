@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'core/router.dart';
 import 'core/setup.dart';
 import 'core/theme.dart';
+import 'domain/model/commandmanager.dart';
 import 'presentation/strings.dart';
 
 const isDebug = kDebugMode;
 
 void main() {
+  CommandManager.initialize();
   if (isDebug) {
     setupApp().then((_) => runApp(const MyApp()));
   } else {

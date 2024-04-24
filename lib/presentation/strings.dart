@@ -69,6 +69,7 @@ class Strings {
       'Автоматически подключаться к последнему известному устройству';
   static const drinksQuantityTitle = 'Количество ингредиентов';
 
+  static const urlConfig = 'Обратная связь';
   static const calibrateTitle = 'Калибровка';
   static const calibrateText = '''
     1. Установите предмет точная масса которого вам известна;
@@ -90,4 +91,8 @@ class Strings {
   static const dialogTitle ='Введите название';
   static const dialogName ='Название';
 
+  // * ReviewDialog
+  static const reviewTitle = 'Помогите улучшить наше приложение!';
+  static const reviewText = 'Если у вас есть идеи для улучшения, пожалуйста, поделитесь ими с нами.';
+  static const reviewButton = 'Оставить отзыв';
 }

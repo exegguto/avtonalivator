@@ -31,13 +31,20 @@ class DataSource {
 
   Future<List<ApiCocktail>> getCocktails() async {
     final uri = _baseUri.replace(path: _cocktails);
-    final response = await _get(uri);
-    final data = response.data;
-
-    final list = data['data'];
-    final result =
-        list.map<ApiCocktail>((e) => ApiCocktail.fromJson(e)).toList();
-    return result;
+    print('Making request to: $uri');
+    try {
+      final response = await _get(uri);
+      print('Response status: ${response.statusCode}');
+      final data = response.data;
+      final list = data['data'];
+      final result =
+      list.map<ApiCocktail>((e) => ApiCocktail.fromJson(e)).toList();
+      return result;
+    } catch (e, stacktrace) {
+      print('Request failed: $e');
+      print('Stacktrace: $stacktrace');
+      return List.empty();
+    }
   }
 
   Future<bool> postCocktail(ApiCocktail cocktail) async {

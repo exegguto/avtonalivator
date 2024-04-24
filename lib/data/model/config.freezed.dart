@@ -12,7 +12,7 @@ part of 'config.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ApiConfig _$ApiConfigFromJson(Map<String, dynamic> json) {
   return _ApiConfig.fromJson(json);
@@ -21,6 +21,7 @@ ApiConfig _$ApiConfigFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ApiConfig {
   String? get accentColor => throw _privateConstructorUsedError;
+  String? get urlGoogle => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,7 @@ abstract class $ApiConfigCopyWith<$Res> {
   factory $ApiConfigCopyWith(ApiConfig value, $Res Function(ApiConfig) then) =
       _$ApiConfigCopyWithImpl<$Res, ApiConfig>;
   @useResult
-  $Res call({String? accentColor});
+  $Res call({String? accentColor, String? urlGoogle});
 }
 
 /// @nodoc
@@ -50,11 +51,16 @@ class _$ApiConfigCopyWithImpl<$Res, $Val extends ApiConfig>
   @override
   $Res call({
     Object? accentColor = freezed,
+    Object? urlGoogle = freezed,
   }) {
     return _then(_value.copyWith(
       accentColor: freezed == accentColor
           ? _value.accentColor
           : accentColor // ignore: cast_nullable_to_non_nullable
+              as String?,
+      urlGoogle: freezed == urlGoogle
+          ? _value.urlGoogle
+          : urlGoogle // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -68,7 +74,7 @@ abstract class _$$ApiConfigImplCopyWith<$Res>
       __$$ApiConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? accentColor});
+  $Res call({String? accentColor, String? urlGoogle});
 }
 
 /// @nodoc
@@ -83,11 +89,16 @@ class __$$ApiConfigImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? accentColor = freezed,
+    Object? urlGoogle = freezed,
   }) {
     return _then(_$ApiConfigImpl(
       accentColor: freezed == accentColor
           ? _value.accentColor
           : accentColor // ignore: cast_nullable_to_non_nullable
+              as String?,
+      urlGoogle: freezed == urlGoogle
+          ? _value.urlGoogle
+          : urlGoogle // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -96,17 +107,19 @@ class __$$ApiConfigImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ApiConfigImpl implements _ApiConfig {
-  const _$ApiConfigImpl({this.accentColor});
+  const _$ApiConfigImpl({this.accentColor, this.urlGoogle});
 
   factory _$ApiConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$ApiConfigImplFromJson(json);
 
   @override
   final String? accentColor;
+  @override
+  final String? urlGoogle;
 
   @override
   String toString() {
-    return 'ApiConfig(accentColor: $accentColor)';
+    return 'ApiConfig(accentColor: $accentColor, urlGoogle: $urlGoogle)';
   }
 
   @override
@@ -115,12 +128,14 @@ class _$ApiConfigImpl implements _ApiConfig {
         (other.runtimeType == runtimeType &&
             other is _$ApiConfigImpl &&
             (identical(other.accentColor, accentColor) ||
-                other.accentColor == accentColor));
+                other.accentColor == accentColor) &&
+            (identical(other.urlGoogle, urlGoogle) ||
+                other.urlGoogle == urlGoogle));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, accentColor);
+  int get hashCode => Object.hash(runtimeType, accentColor, urlGoogle);
 
   @JsonKey(ignore: true)
   @override
@@ -137,13 +152,16 @@ class _$ApiConfigImpl implements _ApiConfig {
 }
 
 abstract class _ApiConfig implements ApiConfig {
-  const factory _ApiConfig({final String? accentColor}) = _$ApiConfigImpl;
+  const factory _ApiConfig(
+      {final String? accentColor, final String? urlGoogle}) = _$ApiConfigImpl;
 
   factory _ApiConfig.fromJson(Map<String, dynamic> json) =
       _$ApiConfigImpl.fromJson;
 
   @override
   String? get accentColor;
+  @override
+  String? get urlGoogle;
   @override
   @JsonKey(ignore: true)
   _$$ApiConfigImplCopyWith<_$ApiConfigImpl> get copyWith =>

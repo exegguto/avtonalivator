@@ -10,6 +10,20 @@ class _Params {
     final connection = context.read<ConnectionProvider>();
 
     list = [
+      Param.deviceModal(
+        key: ParamKey.urlConfig,
+        title: Strings.urlConfig,
+        onTap: () async {
+          showDialog(
+            context: context,
+            builder: (_) => ChangeNotifierProvider.value(
+              value: context.read<ConnectionProvider>(),
+              child: const ReviewDialog(),
+            ),
+          );
+        },
+        color: AppTheme.greenButton
+      ),
       Param.stored(
         provider: settings,
         key: ParamKey.autoConnect,

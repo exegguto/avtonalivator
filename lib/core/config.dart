@@ -6,14 +6,17 @@ const _defaultColor = Color(0xFFFAD960);
 
 class AppConfig {
   final Color accentColor;
+  final String? urlGoogle;
 
   AppConfig({
     this.accentColor = _defaultColor,
+    this.urlGoogle = ''
   });
 
   factory AppConfig.fromApi(ApiConfig config) {
     return AppConfig(
       accentColor: _tryParseColor(config.accentColor) ?? _defaultColor,
+      urlGoogle: config.urlGoogle,
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import '../../data/connection/fbs_adapter.dart';
 import '../logger.dart';
 import '../model/cocktail.dart';
+import '../model/commandmanager.dart';
 import '../model/device_data.dart';
 import '../model/lightning_mode.dart';
 
@@ -33,7 +34,10 @@ class FbsDeviceMethods implements DeviceMethods {
 
   @override
   Stream<DeviceData> get deviceData {
-    return _adapter.input.distinct(listEquals).map(DeviceData.fromBytes);
+    return _adapter.input
+        .distinct(listEquals)
+        .map(DeviceData.fromBytes)
+        .where((data) => !data.containsInvalidCharacter());
   }
 
   @override
@@ -86,6 +90,8 @@ class FbsDeviceMethods implements DeviceMethods {
   Future<void> _sendCommand(String command) {
     Logger.log(command, 'Command');
     command = '$command\r';
+
+    CommandManager.addCommand('OUT: $command');
 
     final chars = utf8.encode(command);
     final bytes = Uint8List.fromList(chars);

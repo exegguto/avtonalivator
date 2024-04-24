@@ -37,7 +37,6 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
 extension GetItInjectableX on _i1.GetIt {
-// initializes the registration of main-scope dependencies inside of GetIt
   _i1.GetIt init({
     String? environment,
     _i2.EnvironmentFilter? environmentFilter,
@@ -49,41 +48,36 @@ extension GetItInjectableX on _i1.GetIt {
     );
     final registerModule = _$RegisterModule();
     gh.factory<_i3.CommandsBox>(() => _i3.CommandsBox());
-    gh.singleton<_i4.Dio>(registerModule.dio);
-    gh.singleton<_i5.FbsAdapter>(_i5.FbsAdapter());
+    gh.singleton<_i4.Dio>(() => registerModule.dio);
+    gh.singleton<_i5.FbsAdapter>(() => _i5.FbsAdapter());
     gh.factory<_i6.LaunchCubit>(() => _i6.LaunchCubit());
     gh.factory<_i7.LocalCocktails>(() => const _i7.LocalCocktails());
-    gh.factory<_i8.LocalFavoriteCocktails>(
-        () => const _i8.LocalFavoriteCocktails());
+    gh.factory<_i8.LocalFavoriteCocktails>(() => const _i8.LocalFavoriteCocktails());
     gh.factory<_i9.SettingsBox>(() => _i9.SettingsBox());
-    gh.factory<_i10.SettingsProvider>(
-        () => _i10.SettingsProvider(gh<_i9.SettingsBox>()));
+    gh.factory<_i10.SettingsProvider>(() => _i10.SettingsProvider(gh<_i9.SettingsBox>()));
     gh.factory<_i11.StatsBox>(() => _i11.StatsBox());
     gh.factory<_i12.Connector>(() => _i12.FbsConnector(gh<_i5.FbsAdapter>()));
     gh.factory<_i13.DataSource>(() => _i13.DataSource(gh<_i4.Dio>()));
-    gh.factory<_i14.DeviceMethods>(
-        () => _i14.FbsDeviceMethods(gh<_i5.FbsAdapter>()));
+    gh.factory<_i14.DeviceMethods>(() => _i14.FbsDeviceMethods(gh<_i5.FbsAdapter>()));
     gh.factory<_i15.ScanCubit>(() => _i15.ScanCubit(
-          gh<_i9.SettingsBox>(),
-          gh<_i12.Connector>(),
-        ));
-    gh.singleton<_i16.CocktailsRepository>(_i16.CocktailsRepository(
+      gh<_i9.SettingsBox>(),
+      gh<_i12.Connector>(),
+    ));
+    gh.singleton<_i16.CocktailsRepository>(() => _i16.CocktailsRepository(
       gh<_i13.DataSource>(),
       gh<_i7.LocalCocktails>(),
       gh<_i8.LocalFavoriteCocktails>(),
     ));
-    gh.singleton<_i17.ConfigRepository>(
-        _i17.ConfigRepository(gh<_i13.DataSource>()));
+    gh.singleton<_i17.ConfigRepository>(() => _i17.ConfigRepository(gh<_i13.DataSource>()));
     gh.factory<_i18.ConnectionProvider>(() => _i18.ConnectionProvider(
-          gh<_i14.DeviceMethods>(),
-          gh<_i12.Connector>(),
-        ));
+      gh<_i14.DeviceMethods>(),
+      gh<_i12.Connector>(),
+    ));
     gh.factory<_i19.TuningProvider>(() => _i19.TuningProvider(
-          gh<_i9.SettingsBox>(),
-          gh<_i16.CocktailsRepository>(),
-        ));
-    gh.factory<_i20.CocktailsProvider>(
-        () => _i20.CocktailsProvider(gh<_i16.CocktailsRepository>()));
+      gh<_i9.SettingsBox>(),
+      gh<_i16.CocktailsRepository>(),
+    ));
+    gh.factory<_i20.CocktailsProvider>(() => _i20.CocktailsProvider(gh<_i16.CocktailsRepository>()));
     return this;
   }
 }

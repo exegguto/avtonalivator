@@ -11,6 +11,7 @@ class SettingsCard extends StatelessWidget {
   final Widget? right;
   final Widget? bottom;
   final VoidCallback? onTap;
+  final Color? background;
 
   const SettingsCard._({
     required this.title,
@@ -18,6 +19,7 @@ class SettingsCard extends StatelessWidget {
     this.right,
     this.bottom,
     this.onTap,
+    this.background,
   });
 
   factory SettingsCard.fromParam(Param param) {
@@ -53,6 +55,7 @@ class SettingsCard extends StatelessWidget {
           description: param.description,
           right: const Icon(Icons.settings_suggest_rounded),
           onTap: () => param.action(),
+          background: param.color,
         );
       default:
         throw UnimplementedError();
@@ -64,7 +67,7 @@ class SettingsCard extends StatelessWidget {
     return BasicCard(
       onTap: onTap,
       padding: AppTheme.padding,
-      color: AppTheme.background,
+      color: background ?? AppTheme.background,
       child: Row(
         children: [
           Expanded(

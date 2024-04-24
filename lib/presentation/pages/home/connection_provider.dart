@@ -16,6 +16,7 @@ class ConnectionProvider extends ChangeNotifier {
   final DeviceMethods _methods;
   final Connector _connector;
 
+
   ConnectionProvider(this._methods, this._connector) {
     device = _connector.device;
     _inputSub?.cancel();

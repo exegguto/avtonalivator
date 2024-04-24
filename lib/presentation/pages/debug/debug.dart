@@ -1,23 +1,19 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/router.dart';
 import '../../../core/theme.dart';
 import '../../../data/connection/fbs_adapter.dart';
+import '../../../domain/model/commandmanager.dart';
 import '../../../domain/storage/commands.dart';
 import '../../../injection.dart';
 import '../../widgets/basic_card.dart';
 
-const _maxLines = 40;
 const double _gap = 8;
 const double _commandSize = 12;
-
-final _border = OutlineInputBorder(
-  borderRadius: BorderRadius.circular(4),
-);
 
 class DebugPage extends StatefulWidget {
   const DebugPage({super.key});
@@ -33,26 +29,18 @@ class _DebugPageState extends State<DebugPage> {
   final logController = TextEditingController();
   final sendController = TextEditingController();
 
+  StreamSubscription<String>? dataSubscription;
+
   final data = [];
 
   @override
   void initState() {
     super.initState();
-
-    var listAll = adapter.logsAll;
-    data.addAll(listAll);
-
-    while (data.length > _maxLines) {
-      data.removeAt(0);
-    }
-    final text = data.join('\n');
-
-    logController.text = text;
-    logController.selection = TextSelection.collapsed(offset: text.length);
   }
 
   void sendCommand() {
     final text = sendController.text;
+    CommandManager.addCommand('OUT: $text'); // Сохранить команду
     final list = utf8.encode(text);
     final bytes = Uint8List.fromList(list);
     print('sendCommand = $text');
@@ -75,24 +63,41 @@ class _DebugPageState extends State<DebugPage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     final commands = this.commands.all;
-    // final adapter = Provider.of<FbsAdapter>(context);
-
-    // setState(() {
-    //   _logAll = adapter.logsAll;
-    // });
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppRoutes.debug),
       ),
       body: Padding(
-        padding: AppTheme.padding / 3,
-        child: StreamBuilder<String>(
-          stream: adapter.logs,//adapter.input.map(utf8.decode),
-          builder: builder,
+        padding: const EdgeInsets.only(bottom: 120),
+        child: StreamBuilder<List<String>>(
+          stream: CommandManager.commandsStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  final command = snapshot.data![index];
+                  return Container(
+                    color: Colors.black,
+                    child: Text(
+                      command,
+                      style: TextStyle(
+                        color: _getColorFromCommand(command),
+                        fontSize: 7,
+                      ),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return const Center(child: Text('No commands yet'));
+            }
+          },
         ),
       ),
       bottomSheet: Ink(
@@ -134,42 +139,14 @@ class _DebugPageState extends State<DebugPage> {
     );
   }
 
-  Widget builder(BuildContext context, AsyncSnapshot<String> snapshot) {
-    setData(snapshot.data);
-    Color textColor = Colors.red;
-    if (logController.text.isNotEmpty && logController.text[0] == '\$') {
-      textColor = Colors.green;
+  Color _getColorFromCommand(String command) {
+    if (command.startsWith('IN')) {
+      return Colors.green;
+    } else if (command.startsWith('OUT')) {
+      return Colors.red;
+    } else {
+      return Colors.black;
     }
-    return TextField(
-      readOnly: true,
-      minLines: _maxLines,
-      maxLines: null,
-      keyboardType: TextInputType.multiline,
-      controller: logController,
-      style: GoogleFonts.sourceCodePro(
-        fontSize: 7,
-        color: textColor,
-      ),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: const Color(0xFF1E1F22),
-        contentPadding: const EdgeInsets.all(4),
-        enabledBorder: _border,
-        focusedBorder: _border,
-      ),
-    );
-  }
-
-  void setData(String? snapshot) {
-    if (snapshot == null) return;
-    data.add(snapshot);
-
-    if (data.length > _maxLines) data.removeAt(0);
-    final text = data.join('\n');
-
-    // TODO скролл не работает, надо сделать 400 строк
-    logController.text = text;
-    logController.selection = TextSelection.collapsed(offset: text.length);
   }
 
   Widget separatorBuilder(BuildContext context, int index) {
