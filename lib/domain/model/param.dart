@@ -16,7 +16,7 @@ class ParamKey {
   static const lightningBrightness = 'lightningBrightness';
 
   static const typesMap = {
-    urlConfig: null,
+    urlConfig: double,
     autoConnect: bool,
     drinksQuantity: int,
     calibration: null,

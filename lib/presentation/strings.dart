@@ -69,7 +69,7 @@ class Strings {
       'Автоматически подключаться к последнему известному устройству';
   static const drinksQuantityTitle = 'Количество ингредиентов';
 
-  static const urlConfig = 'Обратная связь';
+  static const urlConfig = 'Хочу больше функций!';
   static const calibrateTitle = 'Калибровка';
   static const calibrateText = '''
     1. Установите предмет точная масса которого вам известна;

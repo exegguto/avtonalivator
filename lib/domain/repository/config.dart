@@ -20,6 +20,7 @@ class ConfigRepository {
   Future<AppConfig> getConfig() async {
     final config = await _source.getConfig();
     final result = AppConfig.fromApi(config);
+
     return result;
   }
 }

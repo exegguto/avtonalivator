@@ -55,7 +55,13 @@ class SettingsCard extends StatelessWidget {
           description: param.description,
           right: const Icon(Icons.settings_suggest_rounded),
           onTap: () => param.action(),
-          background: param.color,
+        );
+      case double:
+        return SettingsCard._(
+          title: param.title,
+          description: param.description,
+          onTap: () => param.action(),
+          background: AppTheme.greenButton,
         );
       default:
         throw UnimplementedError();
@@ -96,6 +102,10 @@ class SettingsCard extends StatelessWidget {
               child: Center(
                 child: right!,
               ),
+            ),
+          if (right == null)
+            const SizedBox.square(
+              dimension: 40,
             ),
         ],
       ),

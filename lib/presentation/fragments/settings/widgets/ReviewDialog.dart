@@ -23,7 +23,7 @@ class ReviewDialog extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.greenButton, // Зелёный цвет кнопки
               ),
-              onPressed: () => launchUrl(), // Функция перехода по ссылке
+              onPressed: () => launchUrls(), // Функция перехода по ссылке
               child: const Text(Strings.reviewButton),
             ),
           ],
@@ -32,24 +32,20 @@ class ReviewDialog extends StatelessWidget {
     );
   }
 
-  void launchUrl() async {
+  void launchUrls() async {
     try {
-      final configRepository = GetIt.I.get<ConfigRepository>();  // Получаем из DI
-      AppConfig config = await configRepository.getConfig(); // Асинхронно получаем конфигурацию
-      final url = config.urlGoogle; // Извлекаем URL
+      final configRepository = GetIt.I.get<ConfigRepository>();
+      AppConfig config = await configRepository.getConfig();
+      final url = config.urlGoogle;
 
       if (url != null) {
-        final uri = Uri.parse(url); // Преобразование строки URL в Uri
-        if (await canLaunchUrl(uri)) {
-          await launch(uri as String);
-        } else {
-          throw 'Could not launch $url';
-        }
+        final uri = Uri.parse(url);
+          await launchUrl(uri);
       } else {
-        print('URL is null'); // Обработка случая, когда URL не предоставлен
+        print('URL is null');
       }
     } catch (e) {
-      print('Error launching URL: $e'); // Логирование ошибок
+      print('Error launching URL: $e');
     }
   }
 }
