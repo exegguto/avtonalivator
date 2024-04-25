@@ -1,7 +1,7 @@
 name: avtonalivator
 description: Bluetooth client for Avtobarmen.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.1.2
+version: 1.2.0
 environment:
   sdk: ^3.0.0
 
@@ -35,6 +35,8 @@ dependencies:
   json_annotation: ^4.8.1
   hive: ^2.0.5
   hive_flutter: ^1.1.0
+  path_provider: ^2.0.14
+  url_launcher: ^6.2.6
 
   # Firebase
   firebase_core: ^2.14.0
@@ -48,7 +50,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^3.0.2
 
   # Build runner
   build_runner: ^2.3.3
@@ -58,7 +60,7 @@ dev_dependencies:
   hive_generator: ^2.0.0
 
   # Assets generators
-  rename: ^2.1.1
+  rename: ^3.0.2
   flutter_native_splash: ^2.2.9
   icons_launcher: ^2.1.0
 

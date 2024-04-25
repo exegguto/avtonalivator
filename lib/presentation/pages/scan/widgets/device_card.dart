@@ -32,7 +32,7 @@ class DeviceCard extends StatelessWidget {
       color: AppTheme.background,
       padding: AppTheme.padding,
       child: SizedBox(
-        height: 46,
+        height: 50,
         child: Row(
           children: [
             if (recommended) ...[

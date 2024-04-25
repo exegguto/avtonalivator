@@ -9,7 +9,7 @@ import 'input_transformer.dart';
 
 /// Прослойка для библиотеки flutter_bluetooth_serial
 @singleton
-class FbsAdapter {
+class FbsAdapter{
   final _bluetooth = FlutterBluetoothSerial.instance;
   final _input = StreamController<Uint8List>.broadcast();
 

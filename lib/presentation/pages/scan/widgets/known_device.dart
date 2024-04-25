@@ -16,7 +16,7 @@ class _KnownDeviceSheet extends StatelessWidget {
           AppTheme.paddingValue +
           29 +
           AppTheme.paddingValue +
-          108,
+          108 + 37,
       padding: AppTheme.listPadding,
       shadow: const BoxShadow(
         color: Colors.black,

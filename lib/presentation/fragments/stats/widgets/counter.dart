@@ -60,6 +60,7 @@ class StatsCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     return PercentIndicator(
       percent: percent,
+      weight: "",
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

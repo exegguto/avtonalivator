@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 import '../parse_utils.dart';
+import 'commandmanager.dart';
 import 'device_mode.dart';
 
 export 'device_mode.dart';
@@ -25,11 +26,17 @@ class DeviceData extends Equatable {
 
   factory DeviceData.fromBytes(Uint8List bytes) {
     final data = utf8.decode(bytes);
+    CommandManager.addCommand('IN:  $data'); // Сохранить команду
+    print('utf8.decode data: $data');
     return DeviceData._fromString(data);
   }
 
   factory DeviceData._fromString(String data) {
     return _parseData(data);
+  }
+
+  bool containsInvalidCharacter() {
+    return this.toString().contains('-');
   }
 
   DeviceData copyWith({

@@ -26,13 +26,6 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  static const bodies = [
-    TuningFragment(),
-    CocktailsFragment(),
-    // StatsFragment(),
-    SettingsFragment(),
-  ];
-
   void startPour() async {
     final provider = context.read<ConnectionProvider>();
     provider.startPour();
@@ -41,7 +34,7 @@ class HomePageState extends State<HomePage> {
       context: context,
       builder: (_) => ChangeNotifierProvider.value(
         value: provider,
-        child: const PourModal(),
+        child: PourModal(),
       ),
     ).whenComplete(provider.stopPour);
   }
@@ -59,13 +52,7 @@ class HomePageState extends State<HomePage> {
         ],
         child: bodies[index],
       ),
-      floatingActionButton: index != 0
-          ? null
-          : FloatingActionButton.extended(
-              onPressed: startPour,
-              icon: const Icon(Icons.local_drink_rounded),
-              label: const Text(Strings.pour),
-            ),
+      floatingActionButton: buttons[index],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: setIndex,
         selectedIndex: index,
@@ -78,16 +65,37 @@ class HomePageState extends State<HomePage> {
             icon: Icon(Icons.liquor_rounded),
             label: Strings.cocktails,
           ),
-          // NavigationDestination(
-          //   icon: Icon(Icons.insert_chart_outlined_outlined),
-          //   label: Strings.stats,
-          // ),
           NavigationDestination(
             icon: Icon(Icons.settings_rounded),
             label: Strings.settings,
           ),
+          // NavigationDestination(
+          //   icon: Icon(Icons.insert_chart_outlined_outlined),
+          //   label: Strings.stats,
+          // ),
         ],
       ),
     );
   }
+
+  static const bodies = [
+    TuningFragment(),
+    CocktailsFragment(),
+    SettingsFragment(),
+    // StatsFragment(),
+  ];
+
+  late final buttons = [
+    FloatingActionButton.extended(
+      onPressed: startPour,
+      icon: const Icon(Icons.local_drink_rounded),
+      label: const Text(Strings.pour),
+    ),
+    // FloatingActionButton(
+    //   onPressed: () {},
+    //   child: const Icon(Icons.add_rounded),
+    // ),
+    null,
+    null,
+  ];
 }

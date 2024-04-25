@@ -16,6 +16,7 @@ class ConnectionProvider extends ChangeNotifier {
   final DeviceMethods _methods;
   final Connector _connector;
 
+
   ConnectionProvider(this._methods, this._connector) {
     device = _connector.device;
     _inputSub?.cancel();
@@ -27,6 +28,10 @@ class ConnectionProvider extends ChangeNotifier {
   StreamSubscription? _inputSub;
 
   List<String> _drinks = [];
+
+  List<String> get drinks {
+    return _drinks;
+  }
 
   String? get drink {
     final index = data.step - 1;

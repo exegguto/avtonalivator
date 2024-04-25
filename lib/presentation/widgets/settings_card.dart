@@ -11,6 +11,7 @@ class SettingsCard extends StatelessWidget {
   final Widget? right;
   final Widget? bottom;
   final VoidCallback? onTap;
+  final Color? background;
 
   const SettingsCard._({
     required this.title,
@@ -18,6 +19,7 @@ class SettingsCard extends StatelessWidget {
     this.right,
     this.bottom,
     this.onTap,
+    this.background,
   });
 
   factory SettingsCard.fromParam(Param param) {
@@ -31,7 +33,9 @@ class SettingsCard extends StatelessWidget {
             min: 0,
             max: param.maxValue ?? 100.0,
             value: (param.value as num).toDouble(),
-            onChanged: (v) => param.action(v.round()),
+            onChanged: (v) {
+              param.action(v.round());
+            },
           ),
         );
       case bool:
@@ -52,6 +56,13 @@ class SettingsCard extends StatelessWidget {
           right: const Icon(Icons.settings_suggest_rounded),
           onTap: () => param.action(),
         );
+      case double:
+        return SettingsCard._(
+          title: param.title,
+          description: param.description,
+          onTap: () => param.action(),
+          background: AppTheme.greenButton,
+        );
       default:
         throw UnimplementedError();
     }
@@ -62,7 +73,7 @@ class SettingsCard extends StatelessWidget {
     return BasicCard(
       onTap: onTap,
       padding: AppTheme.padding,
-      color: AppTheme.background,
+      color: background ?? AppTheme.background,
       child: Row(
         children: [
           Expanded(
@@ -91,6 +102,10 @@ class SettingsCard extends StatelessWidget {
               child: Center(
                 child: right!,
               ),
+            ),
+          if (right == null)
+            const SizedBox.square(
+              dimension: 40,
             ),
         ],
       ),

@@ -24,23 +24,26 @@ class CalibrationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text(Strings.calibrateTitle),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Text(Strings.calibrateText),
-          const Text(Strings.calibrateSample, style: AppTheme.additional),
-          TextField(
-            controller: controller,
-            decoration: const InputDecoration(
-              label: Label(Strings.calibrateWeight),
+      content: SingleChildScrollView( // Добавляем SingleChildScrollView
+        child: Column(
+          mainAxisSize: MainAxisSize.min, // Указываем MainAxisSize.min
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(Strings.calibrateSample, style: AppTheme.additional),
+            const Text(Strings.calibrateText),
+            TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                label: Label(Strings.calibrateWeight),
+              ),
             ),
-          ),
-        ],
+            // Убедитесь, что кнопки находятся внутри Column
+          ],
+        ),
       ),
       actions: [
         TextButton(
-          onPressed: Navigator.of(context).pop,
+          onPressed: () => Navigator.of(context).pop(),
           child: const Text(Strings.cancel),
         ),
         FilledButton(
@@ -50,4 +53,5 @@ class CalibrationDialog extends StatelessWidget {
       ],
     );
   }
+
 }

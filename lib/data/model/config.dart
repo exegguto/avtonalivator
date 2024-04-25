@@ -7,6 +7,7 @@ part 'config.g.dart';
 class ApiConfig with _$ApiConfig {
   const factory ApiConfig({
     String? accentColor,
+    String? urlGoogle,
   }) = _ApiConfig;
 
   factory ApiConfig.fromJson(Map<String, dynamic> json) =>

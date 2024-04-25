@@ -1,10 +1,14 @@
+import 'dart:ui';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../core/theme.dart';
 import '../../presentation/fragments/settings/provider.dart';
 import 'lightning_mode.dart';
 
 class ParamKey {
+  static const urlConfig = 'urlConfig';
   static const autoConnect = 'autoConnect';
   static const drinksQuantity = 'drinksQuantity';
   static const calibration = 'calibration';
@@ -12,6 +16,7 @@ class ParamKey {
   static const lightningBrightness = 'lightningBrightness';
 
   static const typesMap = {
+    urlConfig: double,
     autoConnect: bool,
     drinksQuantity: int,
     calibration: null,
@@ -28,8 +33,9 @@ class Param extends Equatable {
   final dynamic value;
   final dynamic maxValue;
   final Function action;
+  final Color? color;
 
-  const Param._({
+  Param._({
     required this.type,
     required this.key,
     required this.title,
@@ -37,6 +43,7 @@ class Param extends Equatable {
     required this.value,
     required this.maxValue,
     required this.action,
+    required this.color,
   });
 
   /// Параметр приложения, сохраняемый в телефоне
@@ -57,9 +64,23 @@ class Param extends Equatable {
       value: provider.getParam(key, defaultValue),
       maxValue: maxValue,
       action: (v) {
-        provider.setParam(key, v);
-        onChanged?.call(v);
+        if(key == 'lightningBrightness'){
+          var value = provider.lastSentValue;
+          if(v%5 == 0 && v != value){
+            provider.setParam(key, v);
+            onChanged?.call(v);
+            provider.setValue(v);
+          }
+        } else {
+          provider.setParam(key, v);
+          onChanged?.call(v);
+        }
+
+        // provider.lastSentValue;
+        // provider.setParam(key, v);
+        // onChanged?.call(v);
       },
+      color: AppTheme.background,
     );
   }
 
@@ -69,6 +90,7 @@ class Param extends Equatable {
     required String title,
     String? description,
     required VoidCallback onTap,
+    Color? color
   }) {
     return Param._(
       type: ParamKey.typesMap[key],
@@ -78,6 +100,7 @@ class Param extends Equatable {
       value: null,
       maxValue: null,
       action: onTap,
+      color: color ?? AppTheme.background,
     );
   }
 
@@ -98,6 +121,7 @@ class Param extends Equatable {
       value: value ?? 0,
       maxValue: maxValue,
       action: sendValue,
+      color: AppTheme.background,
     );
   }
 

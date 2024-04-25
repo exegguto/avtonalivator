@@ -22,6 +22,8 @@ class UiCocktail extends Equatable {
     required this.drinks,
   });
 
+  bool get favorite => false;
+
   factory UiCocktail.fromApi(ApiCocktail cocktail) {
     final apiDrinks = cocktail.drinks;
     final drinks = List.generate(
@@ -111,4 +113,21 @@ class UiCocktail extends Equatable {
         // recipe,
         [...drinks],
       ];
+
+  ApiCocktail toApi(bool val) {
+    final now = DateTime.now();
+    var newName = name;
+    var newId = id;
+    if (name == '') newName = now.toIso8601String();
+    if (val) newId = now.millisecondsSinceEpoch; //id == -1
+
+    return ApiCocktail(
+      id: newId,
+      name: newName,
+      imageUrl: image,
+      description: description,
+      recipe: recipe,
+      drinks: drinks.map((d) => d.toApi()).toList(),
+    );
+  }
 }

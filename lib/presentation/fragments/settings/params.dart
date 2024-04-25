@@ -3,12 +3,27 @@ part of 'settings.dart';
 class _Params {
   final BuildContext context;
   late final List<Param> list;
+  int lastActionValue = 0;
 
   _Params(this.context) {
     final settings = context.watch<SettingsProvider>();
     final connection = context.read<ConnectionProvider>();
 
     list = [
+      Param.deviceModal(
+        key: ParamKey.urlConfig,
+        title: Strings.urlConfig,
+        onTap: () async {
+          showDialog(
+            context: context,
+            builder: (_) => ChangeNotifierProvider.value(
+              value: context.read<ConnectionProvider>(),
+              child: const ReviewDialog(),
+            ),
+          );
+        },
+        color: AppTheme.greenButton
+      ),
       Param.stored(
         provider: settings,
         key: ParamKey.autoConnect,
@@ -46,10 +61,19 @@ class _Params {
           ),
         ),
       ),
-      Param.deviceAction(
+      Param.stored(
+        provider: settings,
         key: ParamKey.lightningBrightness,
         title: Strings.lightningBrightness,
-        sendValue: (v) => connection.setLightningBrightness(v),
+        defaultValue: 0,
+        maxValue: 100.0,
+        onChanged: (v) {
+          // int scaledValue = (v / 5).round() * 5;
+          // if ((scaledValue - lastActionValue).abs() >= 5) {
+            connection.setLightningBrightness(v);
+            // lastActionValue = v;
+          // }
+        },
       ),
     ];
 

@@ -5,6 +5,7 @@ import '../../core/theme.dart';
 
 class PercentIndicator extends StatelessWidget {
   final double percent;
+  final String weight;
   final Widget? child;
   final double? radius;
   final bool animation;
@@ -13,6 +14,7 @@ class PercentIndicator extends StatelessWidget {
   const PercentIndicator({
     super.key,
     required this.percent,
+    required this.weight,
     this.child,
     this.radius,
     this.animation = true,
@@ -34,7 +36,17 @@ class PercentIndicator extends StatelessWidget {
       circularStrokeCap: CircularStrokeCap.round,
       radius: radius,
       percent: percent,
-      center: child,
+      // center: child,
+      center: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          child ?? Container(),
+          Text(
+            weight,
+            style: const TextStyle(fontSize: 12),
+          ),
+        ],
+      ),
     );
   }
 }
