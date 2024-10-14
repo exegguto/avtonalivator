@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/theme.dart';
 import '../../domain/model/lightning_mode.dart';
 import '../../domain/model/param.dart';
+import '../../material.dart';
 import 'basic_card.dart';
 
 class SettingsCard extends StatelessWidget {
@@ -10,6 +12,7 @@ class SettingsCard extends StatelessWidget {
   final String description;
   final Widget? right;
   final Widget? bottom;
+  final Widget? bigRight;
   final VoidCallback? onTap;
   final Color? background;
 
@@ -18,6 +21,7 @@ class SettingsCard extends StatelessWidget {
     required this.description,
     this.right,
     this.bottom,
+    this.bigRight,
     this.onTap,
     this.background,
   });
@@ -46,6 +50,28 @@ class SettingsCard extends StatelessWidget {
           right: Checkbox(
             value: param.value as bool,
             onChanged: (v) => param.action(v),
+          ),
+        );
+      case const (List<bool>): // Новое условие для ToggleButtons
+        return SettingsCard._(
+          title: param.title,
+          description: param.description,
+          bigRight: Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return ToggleButtons(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                selectedBorderColor: AppTheme.background,
+                selectedColor: AppTheme.grey,
+                fillColor: Theme.of(context).colorScheme.primary,
+                color: AppTheme.black,
+                isSelected: List<bool>.generate(3,
+                        (index) => index == themeProvider.themeModeIndex),
+                onPressed: (int index) {
+                  param.action(index);
+                },
+                children: param.icons ?? [],
+              );
+            },
           ),
         );
       case LightingMode:
@@ -96,14 +122,22 @@ class SettingsCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          if (right != null)
+          if (bigRight != null)
+            SizedBox(
+              width: 200,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: bigRight!,
+              ),
+            )
+          else if (right != null)
             SizedBox.square(
               dimension: 40,
               child: Center(
                 child: right!,
               ),
-            ),
-          if (right == null)
+            )
+          else
             const SizedBox.square(
               dimension: 40,
             ),

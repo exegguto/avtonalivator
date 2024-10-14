@@ -6,6 +6,7 @@ import '../../../core/router.dart';
 import '../../../core/theme.dart';
 import '../../../domain/model/device.dart';
 import '../../../domain/model/param.dart';
+import '../../../material.dart';
 import '../../pages/home/connection_provider.dart';
 import '../../strings.dart';
 import '../../widgets/barmen_card.dart';

@@ -60,7 +60,7 @@ class TuningProvider extends ChangeNotifier {
   }
 
   String getTotalVolume() {
-    return cocktail.drinks.fold(0.0, (total, drink) => total + drink.volume).toInt().toString() + Strings.ml;
+    return cocktail.drinks.fold(0.0, (total, drink) => total + drink.volume).toInt().toString() + Strings.ml+ "1";
   }
 
   List<String> getListName() {

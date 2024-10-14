@@ -34,17 +34,20 @@ class CocktailsProvider extends ChangeNotifier {
   List<UiCocktail> get cocktails => _cocktails
       .where((c) => !useFilter || c.contains(_tuningDrinks))
       .where((c) => c.name.search(_searchPattern))
-      .toList();
+      .toList()
+      ..sort((a, b) => a.name.compareTo(b.name));
 
   List<UiCocktail> get favCocktails => _userFavorite
       .where((c) => !useFilter || c.contains(_tuningDrinks))
       .where((c) => c.name.search(_searchPattern))
-      .toList();
+      .toList()
+      ..sort((a, b) => a.name.compareTo(b.name));
 
   List<UiCocktail> get userCocktails => _userCocktails
       .where((c) => !useFilter || c.contains(_tuningDrinks))
       .where((c) => c.name.search(_searchPattern))
-      .toList();
+      .toList()
+      ..sort((a, b) => a.name.compareTo(b.name));
 
   List<UiCocktail> get seeCocktails {
     switch (item) {

@@ -37,5 +37,5 @@ class SettingsBox {
 
   bool get autoConnect => getParam(ParamKey.autoConnect, false);
 
-  int get drinksQuantity => getParam(ParamKey.drinksQuantity, 6);
+  int get drinksQuantity => 1;//getParam(ParamKey.drinksQuantity, 6);
 }

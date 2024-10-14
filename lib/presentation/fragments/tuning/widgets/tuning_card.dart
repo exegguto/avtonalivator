@@ -79,7 +79,7 @@ class TuningCard extends StatelessWidget {
   }
 
   String get volume {
-    return drink.volume.toStringAsFixed(0) + Strings.ml;
+    return drink.volume.toStringAsFixed(0) + drink.volumeType;
   }
 
   @override
@@ -100,7 +100,7 @@ class TuningCard extends StatelessWidget {
       duration: _duration,
       decoration: BoxDecoration(
         boxShadow: BasicCard.defaultShadow,
-        color: isActive ? AppTheme.accent : AppTheme.background,
+        color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Stack(
@@ -179,10 +179,10 @@ class TuningCard extends StatelessWidget {
 
   SliderThemeData sliderStyle(BuildContext context) {
     return SliderTheme.of(context).copyWith(
-      thumbColor: isActive ? AppTheme.black : AppTheme.accent,
-      activeTrackColor: isActive ? AppTheme.black : AppTheme.accent,
+      thumbColor: isActive ? AppTheme.black : Theme.of(context).colorScheme.primary,
+      activeTrackColor: isActive ? AppTheme.black : Theme.of(context).colorScheme.primary,
       inactiveTrackColor:
-          isActive ? AppTheme.background.withOpacity(0.7) : AppTheme.divider,
+          isActive ? Theme.of(context).colorScheme.background.withOpacity(0.7) : AppTheme.divider,
     );
   }
 }

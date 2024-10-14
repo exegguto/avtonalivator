@@ -34,7 +34,7 @@ class _ModeItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = context.read<ConnectionProvider>();
     // TODO: LightningMode strings
-    final title = mode.name;
+    final title = mode.displayName;
 
     return BasicCard(
       onTap: () => provider.setLightningMode(mode),

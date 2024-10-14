@@ -56,7 +56,7 @@ void showDetail(BuildContext contextA, int index){
           final providerType = cocktailsContext.item;
           switch(providerType) {
             case 1:
-              icon = Icon(Icons.star, color: AppTheme.accent);
+              icon = Icon(Icons.star, color: Theme.of(context).colorScheme.primary);
               break;
             case 2:
               icon = const Icon(Icons.delete_forever, color: AppTheme.red);
@@ -300,7 +300,7 @@ class _DrinkCard extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: InkWell(
               onTap: () => onEditVolume(drink.volume),
-              child: Text(drink.volume.toString() + Strings.ml),
+              child: Text(drink.volume.toString() + drink.volumeType),
             ),
           ),
         ],

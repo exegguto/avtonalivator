@@ -101,7 +101,7 @@ class _DebugPageState extends State<DebugPage> {
         ),
       ),
       bottomSheet: Ink(
-        color: Color.lerp(AppTheme.background, AppTheme.accent, 0.2),
+        color: Color.lerp(Theme.of(context).colorScheme.background, Theme.of(context).colorScheme.primary, 0.2),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -160,7 +160,7 @@ class _DebugPageState extends State<DebugPage> {
       onLongPress: () => deleteCommand(command),
       child: BasicCard(
         onTap: () => setCommand(command),
-        color: AppTheme.accent,
+        color: Theme.of(context).colorScheme.primary,
         padding: const EdgeInsets.all(_gap),
         child: Text(
           command,

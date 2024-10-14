@@ -22,7 +22,7 @@ class FilterCard extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
       decoration: BoxDecoration(
         boxShadow: BasicCard.defaultShadow,
-        color: isActive ? AppTheme.accent : AppTheme.background,
+        color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.background,
         borderRadius: BorderRadius.circular(100),
       ),
       child: BasicCard(

@@ -22,7 +22,7 @@ class SettingsAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       expandedHeight: height,
-      backgroundColor: device == null ? AppTheme.accent : AppTheme.background,
+      backgroundColor: device == null ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.background,
       title: Text(Strings.settings, style: AppTheme.pageTitle),
       flexibleSpace: FlexibleSpaceBar(
         background: Padding(

@@ -32,7 +32,7 @@ class ScanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.accent,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       body: BlocConsumer<ScanCubit, ScanState>(
         buildWhen: (prev, next) => next is ScanFulfilled,
         builder: builder,

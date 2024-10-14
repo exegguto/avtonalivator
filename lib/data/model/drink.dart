@@ -6,8 +6,10 @@ part 'drink.g.dart';
 @freezed
 class ApiDrink with _$ApiDrink {
   const factory ApiDrink({
+    @Default(0) int id,
     @Default('') String name,
     @Default(0) int volume,
+    @Default('') String volumeType,
   }) = _ApiDrink;
 
   factory ApiDrink.fromJson(Map<String, dynamic> json) =>

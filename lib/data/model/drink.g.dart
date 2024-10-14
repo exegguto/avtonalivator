@@ -8,12 +8,16 @@ part of 'drink.dart';
 
 _$ApiDrinkImpl _$$ApiDrinkImplFromJson(Map<String, dynamic> json) =>
     _$ApiDrinkImpl(
+      id: json['id'] as int? ?? 0,
       name: json['name'] as String? ?? '',
       volume: json['volume'] as int? ?? 0,
+      volumeType: json['volumeType'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$ApiDrinkImplToJson(_$ApiDrinkImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'volume': instance.volume,
+      'volumeType': instance.volumeType,
     };

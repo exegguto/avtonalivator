@@ -86,6 +86,7 @@ class Strings {
 
   static const lightningMode = 'Режим подсветки';
   static const lightningBrightness = 'Яркость подсветки';
+  static const themeModeTitle = 'Тема';
 
   // * Tuning
   static const dialogTitle ='Введите название';

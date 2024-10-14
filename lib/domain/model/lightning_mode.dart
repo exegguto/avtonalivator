@@ -22,4 +22,6 @@ enum LightingMode {
   }
 
   String get command => 'm$value';
+
+  String get displayName => 'Режим $value';
 }

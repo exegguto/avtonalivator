@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../core/theme.dart';
@@ -31,7 +32,7 @@ class PercentIndicator extends StatelessWidget {
       animation: animation,
       animationDuration: duration,
       curve: Curves.easeInOutSine,
-      progressColor: AppTheme.accent,
+      progressColor: Theme.of(context).colorScheme.primary,
       backgroundColor: AppTheme.divider,
       circularStrokeCap: CircularStrokeCap.round,
       radius: radius,

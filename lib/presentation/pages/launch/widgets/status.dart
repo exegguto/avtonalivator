@@ -44,7 +44,7 @@ class _NoPermission extends StatelessWidget {
           onPressed: () => openSettings(context),
           style: ElevatedButton.styleFrom(
             foregroundColor: AppTheme.black,
-            backgroundColor: AppTheme.accent,
+            backgroundColor: Theme.of(context).colorScheme.primary,
             minimumSize: const Size(0, 60),
             padding: const EdgeInsets.symmetric(horizontal: 20),
             shape: const RoundedRectangleBorder(
@@ -87,7 +87,7 @@ class _NotEnabled extends StatelessWidget {
           onPressed: () => requestEnable(context),
           style: ElevatedButton.styleFrom(
             foregroundColor: AppTheme.black,
-            backgroundColor: AppTheme.accent,
+            backgroundColor: Theme.of(context).colorScheme.primary,
             minimumSize: const Size(0, 60),
             padding: const EdgeInsets.symmetric(horizontal: 20),
             shape: const RoundedRectangleBorder(

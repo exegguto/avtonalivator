@@ -14,7 +14,7 @@ class ScanAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       expandedHeight: height,
-      backgroundColor: AppTheme.accent,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       title: Text(Strings.connection, style: AppTheme.pageTitle),
       flexibleSpace: FlexibleSpaceBar(
         background: Padding(

@@ -31,14 +31,14 @@ class _Params {
         description: Strings.autoConnectDescription,
         defaultValue: true,
       ),
-      Param.stored(
-        provider: settings,
-        key: ParamKey.drinksQuantity,
-        title: Strings.drinksQuantityTitle,
-        defaultValue: 6,
-        maxValue: 12.0,
-        onChanged: (v) => context.read<TuningProvider>().createCocktail(v),
-      ),
+      // Param.stored(
+      //   provider: settings,
+      //   key: ParamKey.drinksQuantity,
+      //   title: Strings.drinksQuantityTitle,
+      //   defaultValue: 6,
+      //   maxValue: 12.0,
+      //   onChanged: (v) => context.read<TuningProvider>().createCocktail(v),
+      // ),
       Param.deviceModal(
         key: ParamKey.calibration,
         title: Strings.calibrateTitle,
@@ -73,6 +73,21 @@ class _Params {
             connection.setLightningBrightness(v);
             // lastActionValue = v;
           // }
+        },
+      ),
+      Param.deviceToggleAction(
+        key: ParamKey.themeMode,
+        title: 'Выбор темы',
+        // description: 'Выберите текущую погоду',
+        icons: const <Widget>[
+          Icon(Icons.sunny),
+          Icon(Icons.dark_mode),
+          Text("Auto"),
+        ],
+        isSelected: List<bool>.generate(3, (index) => index == context.read<ThemeProvider>().themeModeIndex),
+        onPressed: (int index) {
+          final themeProvider = context.read<ThemeProvider>();
+          themeProvider.setThemeMode(index);
         },
       ),
     ];

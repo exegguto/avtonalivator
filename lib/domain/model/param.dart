@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../core/theme.dart';
 import '../../presentation/fragments/settings/provider.dart';
@@ -10,18 +12,20 @@ import 'lightning_mode.dart';
 class ParamKey {
   static const urlConfig = 'urlConfig';
   static const autoConnect = 'autoConnect';
-  static const drinksQuantity = 'drinksQuantity';
+  // static const drinksQuantity = 'drinksQuantity';
   static const calibration = 'calibration';
   static const lightningMode = 'lightningMode';
   static const lightningBrightness = 'lightningBrightness';
+  static const themeMode = 'themeMode';
 
   static const typesMap = {
     urlConfig: double,
     autoConnect: bool,
-    drinksQuantity: int,
+    // drinksQuantity: int,
     calibration: null,
     lightningMode: LightingMode,
     lightningBrightness: int,
+    themeMode: List<bool>,
   };
 }
 
@@ -34,6 +38,8 @@ class Param extends Equatable {
   final dynamic maxValue;
   final Function action;
   final Color? color;
+  final List<Widget>? icons;
+
 
   Param._({
     required this.type,
@@ -44,6 +50,7 @@ class Param extends Equatable {
     required this.maxValue,
     required this.action,
     required this.color,
+    this.icons,
   });
 
   /// Параметр приложения, сохраняемый в телефоне
@@ -121,6 +128,27 @@ class Param extends Equatable {
       value: value ?? 0,
       maxValue: maxValue,
       action: sendValue,
+      color: AppTheme.background,
+    );
+  }
+
+  factory Param.deviceToggleAction({
+    required String key,
+    required String title,
+    String? description,
+    required List<Widget> icons, // Иконки или виджеты для кнопок
+    required List<bool> isSelected, // Состояния выбранных кнопок
+    required Function(int) onPressed, // Функция для обработки выбора
+  }) {
+    return Param._(
+      type: List<bool>, // Указываем тип
+      key: key,
+      title: title,
+      description: description ?? '',
+      value: isSelected,
+      maxValue: null,
+      icons: icons,
+      action: onPressed, // Присваиваем действие
       color: AppTheme.background,
     );
   }

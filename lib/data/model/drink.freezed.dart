@@ -20,8 +20,10 @@ ApiDrink _$ApiDrinkFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ApiDrink {
+  int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   int get volume => throw _privateConstructorUsedError;
+  String get volumeType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +36,7 @@ abstract class $ApiDrinkCopyWith<$Res> {
   factory $ApiDrinkCopyWith(ApiDrink value, $Res Function(ApiDrink) then) =
       _$ApiDrinkCopyWithImpl<$Res, ApiDrink>;
   @useResult
-  $Res call({String name, int volume});
+  $Res call({int id, String name, int volume, String volumeType});
 }
 
 /// @nodoc
@@ -50,10 +52,16 @@ class _$ApiDrinkCopyWithImpl<$Res, $Val extends ApiDrink>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? volume = null,
+    Object? volumeType = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -62,6 +70,10 @@ class _$ApiDrinkCopyWithImpl<$Res, $Val extends ApiDrink>
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
               as int,
+      volumeType: null == volumeType
+          ? _value.volumeType
+          : volumeType // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -74,7 +86,7 @@ abstract class _$$ApiDrinkImplCopyWith<$Res>
       __$$ApiDrinkImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, int volume});
+  $Res call({int id, String name, int volume, String volumeType});
 }
 
 /// @nodoc
@@ -88,10 +100,16 @@ class __$$ApiDrinkImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? volume = null,
+    Object? volumeType = null,
   }) {
     return _then(_$ApiDrinkImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -100,6 +118,10 @@ class __$$ApiDrinkImplCopyWithImpl<$Res>
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
               as int,
+      volumeType: null == volumeType
+          ? _value.volumeType
+          : volumeType // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -107,21 +129,28 @@ class __$$ApiDrinkImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ApiDrinkImpl implements _ApiDrink {
-  const _$ApiDrinkImpl({this.name = '', this.volume = 0});
+  const _$ApiDrinkImpl(
+      {this.id = 0, this.name = '', this.volume = 0, this.volumeType = ''});
 
   factory _$ApiDrinkImpl.fromJson(Map<String, dynamic> json) =>
       _$$ApiDrinkImplFromJson(json);
 
   @override
   @JsonKey()
+  final int id;
+  @override
+  @JsonKey()
   final String name;
   @override
   @JsonKey()
   final int volume;
+  @override
+  @JsonKey()
+  final String volumeType;
 
   @override
   String toString() {
-    return 'ApiDrink(name: $name, volume: $volume)';
+    return 'ApiDrink(id: $id, name: $name, volume: $volume, volumeType: $volumeType)';
   }
 
   @override
@@ -129,13 +158,16 @@ class _$ApiDrinkImpl implements _ApiDrink {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ApiDrinkImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.volume, volume) || other.volume == volume));
+            (identical(other.volume, volume) || other.volume == volume) &&
+            (identical(other.volumeType, volumeType) ||
+                other.volumeType == volumeType));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, volume);
+  int get hashCode => Object.hash(runtimeType, id, name, volume, volumeType);
 
   @JsonKey(ignore: true)
   @override
@@ -152,16 +184,23 @@ class _$ApiDrinkImpl implements _ApiDrink {
 }
 
 abstract class _ApiDrink implements ApiDrink {
-  const factory _ApiDrink({final String name, final int volume}) =
-      _$ApiDrinkImpl;
+  const factory _ApiDrink(
+      {final int id,
+      final String name,
+      final int volume,
+      final String volumeType}) = _$ApiDrinkImpl;
 
   factory _ApiDrink.fromJson(Map<String, dynamic> json) =
       _$ApiDrinkImpl.fromJson;
 
   @override
+  int get id;
+  @override
   String get name;
   @override
   int get volume;
+  @override
+  String get volumeType;
   @override
   @JsonKey(ignore: true)
   _$$ApiDrinkImplCopyWith<_$ApiDrinkImpl> get copyWith =>

@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../data/model/drink.dart';
+import '../../presentation/strings.dart';
 import '../string_utils.dart';
 import 'cocktail.dart';
 
@@ -11,40 +12,45 @@ class UiDrink extends Equatable {
   final int id;
   final String name;
   final double volume;
+  final String volumeType;
   final bool enabled;
 
   const UiDrink({
     required this.id,
     required this.name,
     required this.volume,
+    required this.volumeType,
     required this.enabled,
   });
 
-  static const base = UiDrink(id: 0, name: '', volume: 25, enabled: true);
+  static const base = UiDrink(id: 0, name: '', volume: 25, volumeType: Strings.ml, enabled: true);
 
   factory UiDrink.fromApi(int id, ApiDrink drink) {
     return UiDrink(
       id: id,
       name: drink.name,
       volume: drink.volume.toDouble(),
+      volumeType: drink.volumeType,
       enabled: drink.volume != 0,
     );
   }
 
   factory UiDrink.empty(int id) {
-    return UiDrink(id: id, name: '', volume: 25, enabled: false);
+    return UiDrink(id: id, name: '', volume: 25, volumeType: Strings.ml, enabled: false);
   }
 
   UiDrink copyWith({
     int? id,
     String? name,
     double? volume,
+    String? volumeType,
     bool? enabled,
   }) {
     return UiDrink(
       id: id ?? this.id,
       name: name ?? this.name,
       volume: volume ?? this.volume,
+      volumeType: volumeType ?? this.volumeType,
       enabled: enabled ?? this.enabled,
     );
   }
@@ -70,13 +76,14 @@ class UiDrink extends Equatable {
         : copyWith(
             name: drink.name,
             volume: drink.volume.toDouble(),
+            volumeType: drink.volumeType,
             enabled: true,
           );
     return result;
   }
 
   @override
-  List<Object?> get props => [id, name, volume, enabled];
+  List<Object?> get props => [id, name, volume, volumeType, enabled];
 
   /// Реализация PrimaryKey
   @override
@@ -92,6 +99,7 @@ class UiDrink extends Equatable {
     return ApiDrink(
       name: name,
       volume: volume.round(),
+      volumeType: volumeType,
     );
   }
 }

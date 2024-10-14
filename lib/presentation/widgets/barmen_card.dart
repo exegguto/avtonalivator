@@ -40,7 +40,7 @@ class BarmenCard extends StatelessWidget {
     return BasicCard(
       onTap: onTap,
       padding: const EdgeInsets.all(20),
-      color: isActive ? AppTheme.accent : AppTheme.background,
+      color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.background,
       width: 340,
       child: IntrinsicHeight(
         child: Row(

@@ -55,7 +55,7 @@ class _ModalData extends StatelessWidget {
   int get _percent => (value * 100).round();
 
   String get percent => '$_percent%';
-  String get weight => '$valWeight${Strings.ml}';
+  String get weight => '$valWeight${Strings.ml}4';
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class _ModalData extends StatelessWidget {
           child: const Text(Strings.cancel),
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.black,
-            backgroundColor: AppTheme.accent,
+            backgroundColor: Theme.of(context).colorScheme.primary,
           ),
         ),
       ],

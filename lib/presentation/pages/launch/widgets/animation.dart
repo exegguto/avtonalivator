@@ -20,7 +20,7 @@ class LaunchAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Ink(
-      color: AppTheme.accent,
+      color: Theme.of(context).colorScheme.primary,
       child: Stack(
         children: [
           AnimatedPositioned(

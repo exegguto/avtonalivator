@@ -31,10 +31,10 @@ class DataSource {
 
   Future<List<ApiCocktail>> getCocktails() async {
     final uri = _baseUri.replace(path: _cocktails);
-    print('Making request to: $uri');
+    // print('Making request to: $uri');
     try {
       final response = await _get(uri);
-      print('Response status: ${response.statusCode}');
+      // print('Response status: ${response.statusCode}');
       final data = response.data;
       final list = data['data'];
       final result =
