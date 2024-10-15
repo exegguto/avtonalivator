@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/theme.dart';
-import '../../../domain/model/drink.dart';
+import '../../../domain/model/cocktail.dart';
 import '../../pages/home/connection_provider.dart';
+import '../../pages/home/pour_modal.dart';
 import '../../strings.dart';
 import '../cocktails/cocktails.dart';
 import 'provider.dart';
@@ -44,68 +45,142 @@ class TuningFragment extends StatelessWidget {
             ],
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              DialogHelper.showCustomDialog(
-                context,
-                title: Strings.dialogTitle,
-                hintText: Strings.dialogName,
-                onConfirm: (inputText, id) {
-                  if(id == -1) {
-                    cocktails.save(cocktail.copyWith(name: inputText));
-                  } else {
-                    cocktails.updateCocktail(cocktail.copyWith(id: id, name: inputText), -1);
-                  }
-                  },
-                onCancel: () {  },
-              );
-              // DialogHelper.showCustomDialog(
-              //   context,
-              //   title: Strings.dialogTitle,
-              //   hintText: Strings.dialogName,
-              //   onConfirm: (inputText) {
-              //     cocktails.save(cocktail.copyWith(name: inputText));
-              //   },
-              //   onCancel: () {},
-              // );
-            }, // cocktails.save(cocktail),
-            icon: const Icon(Icons.save_rounded),
-          ),
-          const SizedBox(width: 16),
-        ],
       ),
-      body: _TuningBody(drinks: cocktail.drinks),
+      body: _TuningBody(cocktail: cocktail, cocktails: cocktails),
     );
   }
 }
 
 class _TuningBody extends StatelessWidget {
-  final List<UiDrink> drinks;
+  final UiCocktail cocktail;
+  final CocktailsProvider cocktails;
 
-  const _TuningBody({required this.drinks});
+  const _TuningBody({
+    required this.cocktail,
+    required this.cocktails
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: AppTheme.padding,
-      itemCount: drinks.length,
-      itemBuilder: itemBuilder,
-      separatorBuilder: separatorBuilder,
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ListView.separated(
+                    padding: AppTheme.padding,
+                    itemCount: cocktail.drinks.length,
+                    itemBuilder: itemBuilder,
+                    separatorBuilder: separatorBuilder,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        context.read<TuningProvider>().increaseCocktailQuantity();
+                      },
+                      icon: const Icon(Icons.add),
+                      label: const Text(Strings.add),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              DialogHelper.showCustomDialog(
+                                context,
+                                title: Strings.dialogTitle,
+                                hintText: Strings.dialogName,
+                                onConfirm: (inputText, id) {
+                                  if (id == -1) {
+                                    cocktails.save(cocktail.copyWith(name: inputText));
+                                  } else {
+                                    cocktails.updateCocktail(cocktail.copyWith(id: id, name: inputText), -1);
+                                  }
+                                },
+                                onCancel: () {},
+                              );
+                            },
+                            icon: const Icon(Icons.save_rounded),
+                            label: const Text(Strings.save),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              context.read<TuningProvider>().defaultCocktail();
+                            },
+                            icon: const Icon(Icons.delete),
+                            label: const Text(Strings.clear),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ElevatedButton.icon(
+              onPressed: () {
+                startPour(context);
+              },
+              icon: const Icon(Icons.local_bar),
+              label: const Text(Strings.goPour),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary
+              ),
+            ),
+          ),
+          const SizedBox(height: 16.0),
+        ],
+      ),
     );
   }
 
   Widget itemBuilder(BuildContext context, int index) {
-    final drink = drinks[index];
+    final drink = cocktail.drinks[index];
+    final cocktailsProvider = Provider.of<CocktailsProvider>(context, listen: false);
+
     return TuningCard(
       drink: drink,
-      setDrink: context.read<TuningProvider>().updateDrink,
+      setDrink: (UiDrink) {
+        var volumeType = cocktailsProvider.getVolumeTypeByDrinkName(UiDrink.name);
+        var newUiDrink = UiDrink.copyWith(volumeType: volumeType);
+        context.read<TuningProvider>().updateDrink(newUiDrink);
+      },
       drinks: context.watch<CocktailsProvider>().drinks,
+      onDelete: (){
+        context.read<TuningProvider>().removeDrink(drink.id);
+      },
     );
   }
 
   Widget separatorBuilder(BuildContext context, int index) {
     return const SizedBox(height: 10);
+  }
+
+  void startPour(BuildContext context) async {
+    final provider = context.read<ConnectionProvider>();
+    provider.startPour();
+
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => ChangeNotifierProvider.value(
+        value: provider,
+        child: PourModal(),
+      ),
+    ).whenComplete(provider.stopPour);
   }
 }
 
@@ -167,15 +242,15 @@ class DialogHelper {
                 ],
               ),
               actions: <Widget>[
-                TextButton(
-                  child: Text('Отмена'),
+                OutlinedButton(
+                  child: const Text(Strings.cancel),
                   onPressed: () {
                     onCancel();
                     Navigator.of(context).pop();
                   },
                 ),
-                TextButton(
-                  child: Text('Подтвердить'),
+                FilledButton(
+                  child: const Text(Strings.confirm),
                   onPressed: () {
                     final inputText = selectedDropdownItem!.id == -1 ? textEditingController.text : selectedDropdownItem!.name;
                     onConfirm(inputText, selectedDropdownItem!.id);

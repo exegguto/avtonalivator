@@ -8,7 +8,7 @@ part of 'cocktail.dart';
 
 _$ApiCocktailImpl _$$ApiCocktailImplFromJson(Map<String, dynamic> json) =>
     _$ApiCocktailImpl(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String? ?? '',
       imageUrl: json['imageUrl'] as String? ?? '',
       description: json['description'] as String? ?? '',

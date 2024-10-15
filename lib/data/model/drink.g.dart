@@ -8,9 +8,9 @@ part of 'drink.dart';
 
 _$ApiDrinkImpl _$$ApiDrinkImplFromJson(Map<String, dynamic> json) =>
     _$ApiDrinkImpl(
-      id: json['id'] as int? ?? 0,
+      id: (json['id'] as num?)?.toInt() ?? 0,
       name: json['name'] as String? ?? '',
-      volume: json['volume'] as int? ?? 0,
+      volume: (json['volume'] as num?)?.toInt() ?? 0,
       volumeType: json['volumeType'] as String? ?? '',
     );
 

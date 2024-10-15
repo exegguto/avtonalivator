@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 
@@ -62,6 +63,14 @@ class CocktailsProvider extends ChangeNotifier {
   List<String> get drinks =>
       _cocktails.expand((c) => c.drinkNames).toSet().toList();
 
+  String? getVolumeTypeByDrinkName(String drinkName) {
+    final drink = _cocktails
+        .expand((cocktail) => cocktail.drinks)
+        .firstWhereOrNull((drink) => drink.name == drinkName);
+
+    return drink?.volumeType;
+  }
+
   void searchCocktail(String pattern) {
     _searchPattern = pattern;
     notifyListeners();
@@ -102,7 +111,6 @@ class CocktailsProvider extends ChangeNotifier {
     } else {
       _userCocktails = List.from(_userCocktails)..[index] = cocktail;
     }
-    print('rewrite updateCocktail: $cocktail');
     notifyListeners();
     await _repository.editUserCocktail(cocktail);
   }
@@ -148,31 +156,8 @@ class CocktailsProvider extends ChangeNotifier {
   }
 
   void updateDrink(UiDrink drink, int index) {
-    // print('rewrite updateDrink_0: $drink');
     var editCocktail = _userCocktails[index];
-    // print('rewrite updateDrink_1: $editCocktail');
     editCocktail = editCocktail.updateDrink(drink);
-    // print('rewrite updateDrink_2: $editCocktail');
     updateCocktail(editCocktail, index);
   }
-
-  // void updateDrink(UiDrink drink) {
-  //   cocktail = cocktail.updateDrink(drink);
-  //   setCocktail(cocktail);
-  // }
-
-  // void setCocktail(UiCocktail cocktail) {
-  //   final quantity = _settings.drinksQuantity;
-  //   final drinks = List.generate(
-  //     quantity,
-  //         (index) =>
-  //     cocktail.drinks.elementAtOrNull(index) ?? UiDrink.empty(index + 1),
-  //   );
-  //
-  //   cocktail = cocktail.copyWith(drinks: drinks);
-  //   this.cocktail = cocktail;
-  //   notifyListeners();
-  // }
-
-
 }

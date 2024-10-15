@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
       title: Strings.autoBartender,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: themeMode,  // Используем режим из SettingsProvider
+      themeMode: themeMode,
       initialRoute: AppRoutes.launch,
       onGenerateRoute: AppRoutes.openPage,
     );

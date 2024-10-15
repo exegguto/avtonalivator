@@ -7,8 +7,6 @@ import '../../fragments/settings/provider.dart';
 import '../../fragments/settings/settings.dart';
 import '../../fragments/tuning/tuning.dart';
 import '../../strings.dart';
-import 'connection_provider.dart';
-import 'pour_modal.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -26,19 +24,6 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  void startPour() async {
-    final provider = context.read<ConnectionProvider>();
-    provider.startPour();
-
-    showModalBottomSheet(
-      context: context,
-      builder: (_) => ChangeNotifierProvider.value(
-        value: provider,
-        child: PourModal(),
-      ),
-    ).whenComplete(provider.stopPour);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +37,6 @@ class HomePageState extends State<HomePage> {
         ],
         child: bodies[index],
       ),
-      floatingActionButton: buttons[index],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: setIndex,
         selectedIndex: index,
@@ -83,19 +67,5 @@ class HomePageState extends State<HomePage> {
     CocktailsFragment(),
     SettingsFragment(),
     // StatsFragment(),
-  ];
-
-  late final buttons = [
-    FloatingActionButton.extended(
-      onPressed: startPour,
-      icon: const Icon(Icons.local_drink_rounded),
-      label: const Text(Strings.pour),
-    ),
-    // FloatingActionButton(
-    //   onPressed: () {},
-    //   child: const Icon(Icons.add_rounded),
-    // ),
-    null,
-    null,
   ];
 }

@@ -25,7 +25,7 @@ class ParamKey {
     calibration: null,
     lightningMode: LightingMode,
     lightningBrightness: int,
-    themeMode: List<bool>,
+    // themeMode: List<bool>,
   };
 }
 

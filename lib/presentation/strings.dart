@@ -41,10 +41,13 @@ class Strings {
   static const ml = 'мл';
 
   static const enterName = 'Введите название';
-  static const enterVolume = 'Введите объём (мл)';
+  static const enterVolume = 'Введите количество';
   static const cancel = 'Отмена';
   static const ok = 'ОК';
   static const save = 'Сохранить';
+  static const add = 'Добавить';
+  static const clear = 'Очистить';
+  static const confirm = 'Подтвердить';
 
   static const pour = 'Налить';
   static const goPour = 'Приготовить';

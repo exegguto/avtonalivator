@@ -42,7 +42,7 @@ class CalibrationDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        TextButton(
+        OutlinedButton(
           onPressed: () => Navigator.of(context).pop(),
           child: const Text(Strings.cancel),
         ),

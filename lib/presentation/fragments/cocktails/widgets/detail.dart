@@ -115,8 +115,9 @@ class CocktailDetail extends StatelessWidget {
   });
 
   void setName(String name, UiDrink drink) {
-    final newDrink = drink.copyWith(name: name);
-    print('setName: $drink');
+    final volumeType = cocktail.getVolumeTypeByName(name);
+    final newDrink = drink.copyWith(name: name, volumeType: volumeType);
+    print('setName: $volumeType');
     print('setName: $newDrink');
     return onEditDrink(newDrink);
   }
@@ -134,8 +135,8 @@ class CocktailDetail extends StatelessWidget {
     );
   }
 
-  void setNameCocktail(String volume) {
-    final newCocktail = cocktail.copyWith(name: volume);
+  void setNameCocktail(String name) {
+    final newCocktail = cocktail.copyWith(name: name);
     return onEditCocktail(newCocktail);
   }
 
@@ -300,7 +301,7 @@ class _DrinkCard extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: InkWell(
               onTap: () => onEditVolume(drink.volume),
-              child: Text(drink.volume.toString() + drink.volumeType),
+              child: Text('${drink.volume} ${drink.volumeType}'),
             ),
           ),
         ],

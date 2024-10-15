@@ -28,9 +28,18 @@ class ConnectionProvider extends ChangeNotifier {
   StreamSubscription? _inputSub;
 
   List<String> _drinks = [];
+  List<Map<String, String>> _drinkNamesAndVolumeTypes = [];
 
   List<String> get drinks {
     return _drinks;
+  }
+
+  String? get drinksVolume {
+    final index = data.step - 1;
+    if (index >= 0 && index < _drinkNamesAndVolumeTypes.length) {
+      return _drinkNamesAndVolumeTypes[index]['volumeType'];
+    }
+    return null;
   }
 
   String? get drink {
@@ -55,6 +64,8 @@ class ConnectionProvider extends ChangeNotifier {
 
   Future<void> setCocktail(UiCocktail cocktail) {
     _drinks = cocktail.drinkNames;
+    _drinkNamesAndVolumeTypes = cocktail.drinkNamesAndVolumeTypes;
+    print("setCocktail: $_drinkNamesAndVolumeTypes");
     return _methods.setCocktail(cocktail);
   }
 

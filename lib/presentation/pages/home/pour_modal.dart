@@ -24,6 +24,7 @@ class PourModal extends StatelessWidget {
     final weight = data.weight;
     final step = data.step;
     final nameList = provider.drinks;
+    final drinkNamesAndVolumeTypes = provider.drinksVolume;
 
     final finish = data.mode == DeviceMode.wait && data.step == 0;
     if (finish && !hasNavigated) {
@@ -33,7 +34,8 @@ class PourModal extends StatelessWidget {
       });
     }
 
-    return _ModalData(drink: drink, value: value, valWeight: weight, step: step, nameList: nameList);
+    return _ModalData(drink: drink, value: value, valWeight: weight, step: step, nameList: nameList,
+    volumeType: drinkNamesAndVolumeTypes);
   }
 }
 
@@ -43,6 +45,7 @@ class _ModalData extends StatelessWidget {
   final double valWeight;
   final int step;
   final List<String> nameList;
+  final String? volumeType;
 
   const _ModalData({
     required this.drink,
@@ -50,12 +53,13 @@ class _ModalData extends StatelessWidget {
     required this.valWeight,
     required this.step,
     required this.nameList,
+    required this.volumeType,
   });
 
   int get _percent => (value * 100).round();
 
   String get percent => '$_percent%';
-  String get weight => '$valWeight${Strings.ml}4';
+  String get weight => '$valWeight $volumeType';
 
   @override
   Widget build(BuildContext context) {

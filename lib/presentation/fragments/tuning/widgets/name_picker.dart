@@ -23,7 +23,10 @@ class NamePicker extends StatefulWidget {
 class _NamePickerState extends State<NamePicker> {
   String inputValue = '';
 
-  List<String> get drinks => widget.drinks.where(inputValue.searchIn).toList();
+  List<String> get drinks => widget.drinks
+      .where(inputValue.searchIn)
+      .toList()
+    ..sort();
 
   void setValue(String value) {
     setState(() => inputValue = value);

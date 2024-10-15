@@ -67,6 +67,21 @@ class UiCocktail extends Equatable {
 
   List<String> get drinkNames => drinks.map((e) => e.name).toList();
 
+  List<Map<String, String>> get drinkNamesAndVolumeTypes => drinks.map((drink) {
+    return {
+      'name': drink.name,
+      'volumeType': drink.volumeType,
+    };
+  }).toList();
+
+  String? getVolumeTypeByName(String name) {
+    final drink = drinks.firstWhere(
+          (drink) => drink.name == name,
+      orElse: () => UiDrink.empty(0),
+    );
+    return drink.volumeType;
+  }
+
   /// Каждый ингредиент установлен хотя бы в одной помпе
   bool contains(List<String> drinks) {
     return drinkNames.every((ingredient) => drinks.any(ingredient.equals));

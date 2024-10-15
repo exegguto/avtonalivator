@@ -75,21 +75,21 @@ class _Params {
           // }
         },
       ),
-      Param.deviceToggleAction(
-        key: ParamKey.themeMode,
-        title: 'Выбор темы',
-        // description: 'Выберите текущую погоду',
-        icons: const <Widget>[
-          Icon(Icons.sunny),
-          Icon(Icons.dark_mode),
-          Text("Auto"),
-        ],
-        isSelected: List<bool>.generate(3, (index) => index == context.read<ThemeProvider>().themeModeIndex),
-        onPressed: (int index) {
-          final themeProvider = context.read<ThemeProvider>();
-          themeProvider.setThemeMode(index);
-        },
-      ),
+      // Param.deviceToggleAction(
+      //   key: ParamKey.themeMode,
+      //   title: 'Выбор темы',
+      //   // description: 'Выберите текущую погоду',
+      //   icons: const <Widget>[
+      //     Icon(Icons.sunny),
+      //     Icon(Icons.dark_mode),
+      //     Text("Auto"),
+      //   ],
+      //   isSelected: List<bool>.generate(3, (index) => index == context.read<ThemeProvider>().themeModeIndex),
+      //   onPressed: (int index) {
+      //     final themeProvider = context.read<ThemeProvider>();
+      //     themeProvider.setThemeMode(index);
+      //   },
+      // ),
     ];
 
     const typesMap = ParamKey.typesMap;

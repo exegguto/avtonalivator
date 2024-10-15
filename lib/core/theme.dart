@@ -124,6 +124,7 @@ class AppTheme {
   static const divider = Color(0xFFEDEDED);
   static const background = Colors.white;
   static const backgroundDark = Colors.black;
+  static const greenDark = Color(0xFF493E1D);
   static const red = Colors.red;
 
   static const paddingValue = 15.0;
@@ -142,8 +143,8 @@ class AppTheme {
     useMaterial3: true,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     colorScheme: ColorScheme.light(
-      primary: accent,  // Здесь указываем явно
-      secondary: accent,  // Можешь указать другие цвета
+      primary: accent,
+      secondary: accent,
       background: background,
     ),
     scaffoldBackgroundColor: background,
@@ -179,6 +180,31 @@ class AppTheme {
       contentPadding: const EdgeInsets.symmetric(
         vertical: paddingValue / 3,
         horizontal: paddingValue,
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        // backgroundColor: greyLight,
+        foregroundColor: black,
+        textStyle: const TextStyle(fontSize: 18),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        minimumSize: const Size(double.infinity, 48),
+      ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      foregroundColor: black, // Цвет текста
+      backgroundColor: accent, // Цвет фона кнопки
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: greenDark,
+        side: const BorderSide(color: greenDark),
+      ),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: greenDark, // Заливка серая
+        foregroundColor: background, // Цвет текста как цвет фона
       ),
     ),
   );
@@ -224,6 +250,31 @@ class AppTheme {
       contentPadding: const EdgeInsets.symmetric(
         vertical: paddingValue / 3,
         horizontal: paddingValue,
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        // backgroundColor: greyLight,
+        foregroundColor: grey,
+        textStyle: const TextStyle(fontSize: 18),
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        minimumSize: const Size(double.infinity, 48),
+      ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      foregroundColor: Colors.white, // Цвет текста
+      backgroundColor: accent, // Цвет фона кнопки
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: greenDark,
+        side: const BorderSide(color: greenDark),
+      ),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: greenDark, // Заливка серая
+        foregroundColor: background, // Цвет текста как цвет фона
       ),
     ),
   );

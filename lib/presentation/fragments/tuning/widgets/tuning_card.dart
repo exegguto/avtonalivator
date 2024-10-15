@@ -18,12 +18,14 @@ class TuningCard extends StatelessWidget {
   final UiDrink drink;
   final ValueChanged<UiDrink> setDrink;
   final List<String> drinks;
+  final VoidCallback onDelete;
 
   const TuningCard({
     super.key,
     required this.drink,
     required this.setDrink,
     required this.drinks,
+    required this.onDelete,
   });
 
   // * Logic
@@ -79,7 +81,7 @@ class TuningCard extends StatelessWidget {
   }
 
   String get volume {
-    return drink.volume.toStringAsFixed(0) + drink.volumeType;
+    return '${drink.volume.toStringAsFixed(0)} ${drink.volumeType}';
   }
 
   @override
@@ -128,7 +130,7 @@ class TuningCard extends StatelessWidget {
                         child: BasicCard(
                           onTap: () => openNamePicker(context),
                           height: 50,
-                          padding: const EdgeInsets.only(left: 50, right: 15),
+                          padding: const EdgeInsets.only(left: 50, right: 0),
                           alignment: Alignment.centerLeft,
                           child: AnimatedText(
                             pickerTitle,
@@ -152,6 +154,10 @@ class TuningCard extends StatelessWidget {
                       BasicSwitch(
                         value: isActive,
                         onChanged: setEnabled,
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: onDelete,
                       ),
                     ],
                   ),
