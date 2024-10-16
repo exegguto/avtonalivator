@@ -32,6 +32,8 @@ class CocktailsProvider extends ChangeNotifier {
 
   bool useFilter = false;
 
+  String get searchPattern => _searchPattern;
+
   List<UiCocktail> get cocktails => _cocktails
       .where((c) => !useFilter || c.contains(_tuningDrinks))
       .where((c) => c.name.search(_searchPattern))

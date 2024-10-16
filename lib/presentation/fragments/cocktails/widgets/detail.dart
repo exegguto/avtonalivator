@@ -117,8 +117,6 @@ class CocktailDetail extends StatelessWidget {
   void setName(String name, UiDrink drink) {
     final volumeType = cocktail.getVolumeTypeByName(name);
     final newDrink = drink.copyWith(name: name, volumeType: volumeType);
-    print('setName: $volumeType');
-    print('setName: $newDrink');
     return onEditDrink(newDrink);
   }
 
@@ -301,7 +299,7 @@ class _DrinkCard extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: InkWell(
               onTap: () => onEditVolume(drink.volume),
-              child: Text('${drink.volume} ${drink.volumeType}'),
+              child: Text('${drink.volume.toInt()} ${drink.volumeType}'),
             ),
           ),
         ],
