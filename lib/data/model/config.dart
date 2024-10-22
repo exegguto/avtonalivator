@@ -8,6 +8,7 @@ class ApiConfig with _$ApiConfig {
   const factory ApiConfig({
     String? accentColor,
     String? urlGoogle,
+    String? BuyCoaster
   }) = _ApiConfig;
 
   factory ApiConfig.fromJson(Map<String, dynamic> json) =>

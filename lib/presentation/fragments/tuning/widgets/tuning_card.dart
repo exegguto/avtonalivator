@@ -14,7 +14,7 @@ import 'volume_dialog.dart';
 const _maxVolume = 1000.0;
 const _duration = AppTheme.duration;
 
-class TuningCard extends StatelessWidget {
+class TuningCard extends StatefulWidget {
   final UiDrink drink;
   final ValueChanged<UiDrink> setDrink;
   final List<String> drinks;
@@ -28,23 +28,36 @@ class TuningCard extends StatelessWidget {
     required this.onDelete,
   });
 
+  @override
+  _TuningCardState createState() => _TuningCardState();
+}
+
+class _TuningCardState extends State<TuningCard> {
+  late double currentVolume;
+
+  @override
+  void initState() {
+    super.initState();
+    currentVolume = widget.drink.volume;
+  }
+
   // * Logic
 
-  bool get isActive => drink.enabled;
+  bool get isActive => widget.drink.enabled;
 
   void setName(String name) {
-    final newDrink = drink.copyWith(name: name);
-    return setDrink(newDrink);
+    final newDrink = widget.drink.copyWith(name: name);
+    widget.setDrink(newDrink);
   }
 
   void setVolume(double volume) {
-    final newDrink = drink.copyWith(volume: volume);
-    return setDrink(newDrink);
+    final newDrink = widget.drink.copyWith(volume: volume);
+    widget.setDrink(newDrink);
   }
 
   void setEnabled(bool active) {
-    final newDrink = drink.copyWith(enabled: active);
-    return setDrink(newDrink);
+    final newDrink = widget.drink.copyWith(enabled: active);
+    widget.setDrink(newDrink);
   }
 
   // * Modals
@@ -54,7 +67,7 @@ class TuningCard extends StatelessWidget {
       context: context,
       builder: (_) {
         return NamePicker(
-          drinks: drinks,
+          drinks: widget.drinks,
           setDrink: setName,
         );
       },
@@ -62,13 +75,18 @@ class TuningCard extends StatelessWidget {
   }
 
   void openVolumeField(BuildContext context) {
-    final lastValue = drink.volume;
+    final lastValue = widget.drink.volume;
     showDialog(
       context: context,
       builder: (_) {
         return VolumeDialog(
           lastValue: lastValue,
-          setVolume: setVolume,
+          setVolume: (newVolume) {
+            setState(() {
+              currentVolume = newVolume;
+            });
+            setVolume(newVolume);
+          },
         );
       },
     );
@@ -77,11 +95,11 @@ class TuningCard extends StatelessWidget {
   // * Presentation
 
   String get pickerTitle {
-    return drink.name.isEmpty ? Strings.pickDrink : drink.name;
+    return widget.drink.name.isEmpty ? Strings.pickDrink : widget.drink.name;
   }
 
   String get volume {
-    return '${drink.volume.toStringAsFixed(0)} ${drink.volumeType}';
+    return '${currentVolume.toStringAsFixed(0)} ${widget.drink.volumeType}';
   }
 
   @override
@@ -113,7 +131,7 @@ class TuningCard extends StatelessWidget {
             right: null,
             child: Center(
               child: AnimatedText(
-                drink.id.toString(),
+                widget.drink.id.toString(),
                 duration: _duration,
                 style: numberStyle,
               ),
@@ -157,7 +175,7 @@ class TuningCard extends StatelessWidget {
                       ),
                       IconButton(
                         icon: const Icon(Icons.delete),
-                        onPressed: onDelete,
+                        onPressed: widget.onDelete,
                       ),
                     ],
                   ),
@@ -168,10 +186,17 @@ class TuningCard extends StatelessWidget {
                     height: 40,
                     child: Slider(
                       min: 0,
-                      max: max(drink.volume, _maxVolume),
+                      max: max(currentVolume, _maxVolume),
                       divisions: 200,
-                      value: drink.volume,
-                      onChanged: setVolume,
+                      value: currentVolume,
+                      onChanged: (newValue) {
+                        setState(() {
+                          currentVolume = newValue;
+                        });
+                      },
+                      onChangeEnd: (newValue) {
+                        setVolume(newValue);
+                      },
                     ),
                   ),
                 ),
@@ -188,7 +213,7 @@ class TuningCard extends StatelessWidget {
       thumbColor: isActive ? AppTheme.black : Theme.of(context).colorScheme.primary,
       activeTrackColor: isActive ? AppTheme.black : Theme.of(context).colorScheme.primary,
       inactiveTrackColor:
-          isActive ? Theme.of(context).colorScheme.background.withOpacity(0.7) : AppTheme.divider,
+      isActive ? Theme.of(context).colorScheme.background.withOpacity(0.7) : AppTheme.divider,
     );
   }
 }

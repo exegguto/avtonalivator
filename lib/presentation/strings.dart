@@ -2,7 +2,7 @@
 class Strings {
   // * General
 
-  static const autoBartender = 'Автобармен';
+  static const autoBartender = 'Подставка для коктейлей';
   static const description = 'Система автоналива напитков';
 
   // * Launch

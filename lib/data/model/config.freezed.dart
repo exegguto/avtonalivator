@@ -22,6 +22,7 @@ ApiConfig _$ApiConfigFromJson(Map<String, dynamic> json) {
 mixin _$ApiConfig {
   String? get accentColor => throw _privateConstructorUsedError;
   String? get urlGoogle => throw _privateConstructorUsedError;
+  String? get BuyCoaster => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +35,7 @@ abstract class $ApiConfigCopyWith<$Res> {
   factory $ApiConfigCopyWith(ApiConfig value, $Res Function(ApiConfig) then) =
       _$ApiConfigCopyWithImpl<$Res, ApiConfig>;
   @useResult
-  $Res call({String? accentColor, String? urlGoogle});
+  $Res call({String? accentColor, String? urlGoogle, String? BuyCoaster});
 }
 
 /// @nodoc
@@ -52,6 +53,7 @@ class _$ApiConfigCopyWithImpl<$Res, $Val extends ApiConfig>
   $Res call({
     Object? accentColor = freezed,
     Object? urlGoogle = freezed,
+    Object? BuyCoaster = freezed,
   }) {
     return _then(_value.copyWith(
       accentColor: freezed == accentColor
@@ -61,6 +63,10 @@ class _$ApiConfigCopyWithImpl<$Res, $Val extends ApiConfig>
       urlGoogle: freezed == urlGoogle
           ? _value.urlGoogle
           : urlGoogle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      BuyCoaster: freezed == BuyCoaster
+          ? _value.BuyCoaster
+          : BuyCoaster // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -74,7 +80,7 @@ abstract class _$$ApiConfigImplCopyWith<$Res>
       __$$ApiConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? accentColor, String? urlGoogle});
+  $Res call({String? accentColor, String? urlGoogle, String? BuyCoaster});
 }
 
 /// @nodoc
@@ -90,6 +96,7 @@ class __$$ApiConfigImplCopyWithImpl<$Res>
   $Res call({
     Object? accentColor = freezed,
     Object? urlGoogle = freezed,
+    Object? BuyCoaster = freezed,
   }) {
     return _then(_$ApiConfigImpl(
       accentColor: freezed == accentColor
@@ -100,6 +107,10 @@ class __$$ApiConfigImplCopyWithImpl<$Res>
           ? _value.urlGoogle
           : urlGoogle // ignore: cast_nullable_to_non_nullable
               as String?,
+      BuyCoaster: freezed == BuyCoaster
+          ? _value.BuyCoaster
+          : BuyCoaster // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -107,7 +118,7 @@ class __$$ApiConfigImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ApiConfigImpl implements _ApiConfig {
-  const _$ApiConfigImpl({this.accentColor, this.urlGoogle});
+  const _$ApiConfigImpl({this.accentColor, this.urlGoogle, this.BuyCoaster});
 
   factory _$ApiConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$ApiConfigImplFromJson(json);
@@ -116,10 +127,12 @@ class _$ApiConfigImpl implements _ApiConfig {
   final String? accentColor;
   @override
   final String? urlGoogle;
+  @override
+  final String? BuyCoaster;
 
   @override
   String toString() {
-    return 'ApiConfig(accentColor: $accentColor, urlGoogle: $urlGoogle)';
+    return 'ApiConfig(accentColor: $accentColor, urlGoogle: $urlGoogle, BuyCoaster: $BuyCoaster)';
   }
 
   @override
@@ -130,12 +143,15 @@ class _$ApiConfigImpl implements _ApiConfig {
             (identical(other.accentColor, accentColor) ||
                 other.accentColor == accentColor) &&
             (identical(other.urlGoogle, urlGoogle) ||
-                other.urlGoogle == urlGoogle));
+                other.urlGoogle == urlGoogle) &&
+            (identical(other.BuyCoaster, BuyCoaster) ||
+                other.BuyCoaster == BuyCoaster));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, accentColor, urlGoogle);
+  int get hashCode =>
+      Object.hash(runtimeType, accentColor, urlGoogle, BuyCoaster);
 
   @JsonKey(ignore: true)
   @override
@@ -153,7 +169,9 @@ class _$ApiConfigImpl implements _ApiConfig {
 
 abstract class _ApiConfig implements ApiConfig {
   const factory _ApiConfig(
-      {final String? accentColor, final String? urlGoogle}) = _$ApiConfigImpl;
+      {final String? accentColor,
+      final String? urlGoogle,
+      final String? BuyCoaster}) = _$ApiConfigImpl;
 
   factory _ApiConfig.fromJson(Map<String, dynamic> json) =
       _$ApiConfigImpl.fromJson;
@@ -162,6 +180,8 @@ abstract class _ApiConfig implements ApiConfig {
   String? get accentColor;
   @override
   String? get urlGoogle;
+  @override
+  String? get BuyCoaster;
   @override
   @JsonKey(ignore: true)
   _$$ApiConfigImplCopyWith<_$ApiConfigImpl> get copyWith =>

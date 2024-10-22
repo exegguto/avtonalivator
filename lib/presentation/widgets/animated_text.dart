@@ -17,6 +17,7 @@ class AnimatedText extends StatelessWidget {
     return AnimatedDefaultTextStyle(
       duration: duration,
       style: style,
+      textAlign: TextAlign.center,
       child: Text(text),
     );
   }

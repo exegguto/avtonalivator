@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../data/model/cocktail.dart';
+import '../../presentation/strings.dart';
 import '../string_utils.dart';
 import 'drink.dart';
 

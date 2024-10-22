@@ -96,6 +96,7 @@ class FbsDeviceMethods implements DeviceMethods {
     final chars = utf8.encode(command);
     final bytes = Uint8List.fromList(chars);
 
+    print('Command: $bytes');
     return _adapter.send(bytes);
   }
 }

@@ -17,6 +17,7 @@ class ParamKey {
   static const lightningMode = 'lightningMode';
   static const lightningBrightness = 'lightningBrightness';
   static const themeMode = 'themeMode';
+  static const buyCoaster = 'buyCoaster';
 
   static const typesMap = {
     urlConfig: double,
@@ -25,6 +26,7 @@ class ParamKey {
     calibration: null,
     lightningMode: LightingMode,
     lightningBrightness: int,
+    buyCoaster: double,
     // themeMode: List<bool>,
   };
 }

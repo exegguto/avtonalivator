@@ -7,10 +7,12 @@ const _defaultColor = Color(0xFFFAD960);
 class AppConfig {
   final Color accentColor;
   final String? urlGoogle;
+  final String? buyCoaster;
 
   AppConfig({
     this.accentColor = _defaultColor,
-    this.urlGoogle = ''
+    this.urlGoogle = '',
+    this.buyCoaster = ''
   });
 
   factory AppConfig.fromApi(ApiConfig config) {

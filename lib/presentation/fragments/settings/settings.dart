@@ -1,11 +1,15 @@
 import 'package:avtonalivator/presentation/fragments/settings/widgets/ReviewDialog.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/config.dart';
 import '../../../core/router.dart';
 import '../../../core/theme.dart';
 import '../../../domain/model/device.dart';
 import '../../../domain/model/param.dart';
+import '../../../domain/repository/config.dart';
 import '../../../material.dart';
 import '../../pages/home/connection_provider.dart';
 import '../../strings.dart';

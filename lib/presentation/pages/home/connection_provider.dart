@@ -10,6 +10,7 @@ import '../../../domain/model/cocktail.dart';
 import '../../../domain/model/device.dart';
 import '../../../domain/model/device_data.dart';
 import '../../../domain/model/lightning_mode.dart';
+import '../../strings.dart';
 
 @injectable
 class ConnectionProvider extends ChangeNotifier {
@@ -38,8 +39,9 @@ class ConnectionProvider extends ChangeNotifier {
     final index = data.step - 1;
     if (index >= 0 && index < _drinkNamesAndVolumeTypes.length) {
       return _drinkNamesAndVolumeTypes[index]['volumeType'];
+    } else {
+      return Strings.ml;
     }
-    return null;
   }
 
   String? get drink {

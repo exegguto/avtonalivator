@@ -11,6 +11,12 @@ class _Params {
 
     list = [
       Param.deviceModal(
+        key: ParamKey.buyCoaster,
+        title: 'Купить подставку',
+        onTap:  () => launchUrls(),
+        color: AppTheme.greenButton,
+      ),
+      Param.deviceModal(
         key: ParamKey.urlConfig,
         title: Strings.urlConfig,
         onTap: () async {
@@ -94,5 +100,22 @@ class _Params {
 
     const typesMap = ParamKey.typesMap;
     assert(list.length == typesMap.keys.length);
+  }
+
+  void launchUrls() async {
+    try {
+      final configRepository = GetIt.I.get<ConfigRepository>();
+      AppConfig config = await configRepository.getConfig();
+      final url = config.urlGoogle;
+
+      if (url != null) {
+        final uri = Uri.parse(url);
+        await launchUrl(uri);
+      } else {
+        print('URL is null');
+      }
+    } catch (e) {
+      print('Error launching URL: $e');
+    }
   }
 }
