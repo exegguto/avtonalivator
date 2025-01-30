@@ -15,6 +15,7 @@ class LaunchCubit extends Cubit<LaunchState> {
   final _serial = FlutterBluetoothSerial.instance;
   final _status = Permission.bluetooth;
   final _scan = Permission.bluetoothScan;
+  final _connect = Permission.bluetoothConnect;
 
   LaunchCubit() : super(LaunchInitial()) {
     _init();
@@ -45,14 +46,22 @@ class LaunchCubit extends Cubit<LaunchState> {
   }
 
   Future<void> _requestPermission() async {
-    var permission = await _scan.status;
-    _hasPermission = permission.isGranted;
+    // Проверка разрешения на сканирование Bluetooth
+    var scanPermission = await _scan.status;
+    var connectPermission = await _connect.status;  // Проверка для BLUETOOTH_CONNECT
+    _hasPermission = scanPermission.isGranted && connectPermission.isGranted;
 
     try {
-      permission = await _scan.request();
-      _hasPermission = permission.isGranted;
+      if (!scanPermission.isGranted) {
+        scanPermission = await _scan.request();
+      }
+      if (!connectPermission.isGranted) {
+        connectPermission = await _connect.request();
+      }
+
+      _hasPermission = scanPermission.isGranted && connectPermission.isGranted;
     } catch (e) {
-      Logger.log('', e, StackTrace.current);
+      Logger.log('Permission request failed', e, StackTrace.current);
     }
   }
 
